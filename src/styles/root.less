@@ -1,0 +1,430 @@
+// logo font
+@import url('https://fonts.googleapis.com/css2?family=Wallpoet&display=swap');
+
+/* CODESTITCH STYLES, RESET, HEADER/NAVIGATION AND FOOTER */
+
+/*-- -------------------------- -->
+<---        Core Styles         -->
+<--- -------------------------- -*/
+* {
+  box-sizing: border-box;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+  outline: none;
+}
+
+
+
+
+/* CodeStitch Root and Helpers */
+@media only screen and (min-width: 0em) {
+    // style reset
+  
+  
+  // Website colors
+  :root {
+    // --primary: hsl(80, 90%, 55%);
+    // --primaryLight: hsl(80, 60%, 40%);
+    // --secondary: #001f3f;
+    // --secondaryLight: #001f3f;
+    // --headerColor: #1a1a1a;
+    // --bodyTextColor: #4e4b66;
+    // --bodyTextColorWhite: #fafbfc;
+
+    --primary: #FD6301;  
+    --primaryLight: #FF9E6B;  
+    --secondary: #0A0A0A;  
+    --secondaryLight: #3A3A3A;  
+    --headerColor: #111111; 
+     --bodyTextColor: #4e4b66;  
+     --bodyTextColorWhite: #fafbfc;
+
+    --whatsapp:#25d366;
+    --danger:#E53935;
+
+    /* 13px - 16px */
+    --topperFontSize: clamp(0.8125rem, 1.6vw, 1rem);
+    /* 31px - 49px */
+    --headerFontSize: clamp(1.9375rem, 3.9vw, 3.0625rem);
+    --bodyFontSize: 1rem;
+
+    /* 60px - 100px top and bottom */
+    --sectionPadding: clamp(3.75rem, 7.82vw, 6.25rem) 1rem;
+
+
+    // shadows
+
+      --shadow-color: 203deg 100% 27%;
+      --shadow-elevation-low:
+        0px 0.9px 1px hsl(var(--shadow-color) / 0.34),
+        0px 1.6px 1.8px -1.2px hsl(var(--shadow-color) / 0.34),
+        0px 3.7px 4.2px -2.5px hsl(var(--shadow-color) / 0.34);
+      --shadow-elevation-medium:
+        0px 0.9px 1px hsl(var(--shadow-color) / 0.36),
+        0px 3.1px 3.5px -0.8px hsl(var(--shadow-color) / 0.36),
+        0px 7.7px 8.7px -1.7px hsl(var(--shadow-color) / 0.36),
+        0px 18.7px 21px -2.5px hsl(var(--shadow-color) / 0.36);
+      --shadow-elevation-high:
+        0px 0.9px 1px hsl(var(--shadow-color) / 0.34),
+        0px 5.5px 6.2px -0.4px hsl(var(--shadow-color) / 0.34),
+        0px 10.2px 11.5px -0.7px hsl(var(--shadow-color) / 0.34),
+        0px 16.8px 18.9px -1.1px hsl(var(--shadow-color) / 0.34),
+        0.1px 26.8px 30.2px -1.4px hsl(var(--shadow-color) / 0.34),
+        0.1px 41.8px 47px -1.8px hsl(var(--shadow-color) / 0.34),
+        0.1px 63.6px 71.6px -2.1px hsl(var(--shadow-color) / 0.34),
+        0.2px 93.7px 105.4px -2.5px hsl(var(--shadow-color) / 0.34);
+
+  }
+
+
+
+  // Text styles - can be replaced using CodeStitch's "Content Flair" Stitches
+  .cs-topper {
+    font-size: var(--topperFontSize);
+    font-weight: 700;
+    line-height: 1.2em;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--secondary);
+    display: block;
+  }
+
+  .cs-title {
+    font-size: var(--headerFontSize);
+    font-weight: 900;
+    line-height: 1.2em;
+    margin: 0 auto (16/16rem);
+    color: var(--headerColor);
+    position: relative;
+  }
+
+  .cs-text {
+    font-size: var(--bodyFontSize);
+    line-height: 1.5em;
+    width: 100%;
+    margin: 0 auto;
+    color: var(--bodyTextColor);
+  }
+
+  // Button - can be replaced using CodeStitch's "Button" Stitches
+  .cs-button-solid {
+    font-size: (16/16rem);
+    font-weight: bold;
+    line-height: (50/16em);
+    text-align: center;
+    text-transform: uppercase;
+    text-decoration: none;
+    width: auto;
+    height: (50/16rem);
+    padding: 0 (30/16rem);
+
+    // Transition Properties
+    color: #000;
+    background-color: var(--primary);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    z-index: 1;
+    transition: color 0.3s;
+    transition-delay: 0.1s;
+
+    &:hover {
+      color: #fff;
+      &:before {
+        width: 100%;
+      }
+    }
+
+    &:before {
+      content: "";
+
+      //Transition properties
+      width: 0;
+      height: 100%;
+      background-color: #000;
+      opacity: 1;
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      transition: width 0.3s;
+    }
+  }
+}
+
+/* Fonts and general styles */
+@media only screen and (min-width: 0em) {
+  // Grab your fonts to locally host from https://google-webfonts-helper.herokuapp.com/fonts
+
+// arabic font
+/* Global CSS */
+@font-face {
+  font-family: 'Mada';
+  /* Point to your file */
+  src: url('/assets/fonts/Mada-VariableFont_wght.ttf') format('truetype');
+  
+  font-weight: 100 900; 
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0600-06FF, U+200C-200E, U+FB50-FDFF, U+FE70-FEFF; 
+}
+
+  /* roboto-regular - latin */
+  @font-face {
+    font-style: normal;
+    font-family: "Roboto";
+    font-weight: 400;
+    font-display: swap;
+    src: local(""),
+      url("/assets/fonts/roboto-v29-latin-regular.woff2") format("woff2"),
+      /* Chrome 26+, Opera 23+, Firefox 39+ */
+        url("/assets/fonts/roboto-v29-latin-regular.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+  }
+  /* roboto-700 - latin */
+  @font-face {
+    font-style: normal;
+    font-family: "Roboto";
+    font-weight: 700;
+    font-display: swap;
+    src: local(""),
+      url("/assets/fonts/roboto-v29-latin-700.woff2") format("woff2"),
+      /* Chrome 26+, Opera 23+, Firefox 39+ */
+        url("/assets/fonts/roboto-v29-latin-700.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+  }
+  /* roboto-900 - latin */
+  @font-face {
+    font-style: normal;
+    font-family: "Roboto";
+    font-weight: 900;
+    font-display: swap;
+    src: local(""),
+      url("/assets/fonts/roboto-v29-latin-900.woff2") format("woff2"),
+      /* Chrome 26+, Opera 23+, Firefox 39+ */
+        url("/assets/fonts/roboto-v29-latin-900.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+  }
+
+  body,
+  html {
+    font-family: "Mada","Roboto", Arial, sans-serif;
+    font-size: 100%;
+    margin: 0;
+    padding: 0;
+    color: var(--bodyTextColor);
+    overflow-x: hidden;
+  }
+
+  *,
+  *:before,
+  *:after {
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+  }
+
+  body {
+    transition: background-color 0.3s;
+  }
+
+  .container {
+    width: 92%;
+    margin: auto;
+    position: relative;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0;
+    color: var(--headerColor);
+  }
+
+  p,
+  li,
+  a {
+    font-size: (16/16rem);
+    line-height: 1.5em;
+    margin: 0;
+  }
+
+  p,
+  li {
+    color: #353535;
+  }
+
+  a,
+  button {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  // Hidden Screen reader skip nav button
+  .skip {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1111111;
+  }
+}
+
+/* Reset Margins */
+@media only screen and (min-width: 1024px) {
+  body,
+  html {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+/* Scale full website with the viewport width */
+@media only screen and (min-width: 2000px) {
+  body,
+  html {
+    font-size: 0.85vw;
+  }
+}
+
+/*-- -------------------------- -->
+<---      Dark Mode Toggle      -->
+<--- -------------------------- -*/
+
+/* Mobile - 360px */
+@media only screen and (min-width: 0rem) {
+  body.dark-mode {
+    #dark-mode-toggle {
+      .cs-sun {
+        opacity: 1;
+        fill:#fff;
+        transform: translate(-50%, -50%) scale(1.5);
+      }
+
+      .cs-moon {
+        opacity: 0;
+        transform: translate(-50%, -150%) ;
+        fill: #fff;
+      }
+    }
+  }
+
+  #dark-mode-toggle {
+    width: (48/16rem);
+    height: (48/16rem);
+    padding: 0;
+    background: transparent;
+    border: none;
+    display: block;
+    position: absolute;
+    top: (10/16rem);
+    right: (70/16rem);
+    z-index: 1000;
+    overflow: hidden;
+
+    img,
+    svg {
+      width: (20/16rem);
+      height: (20/16rem);
+      //center image inside button
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .cs-moon {
+      z-index: 2;
+      // Transition properties
+      transition: transform 0.3s, opacity 0.3s;
+
+
+    }
+
+    .cs-sun {
+      opacity: 0;
+      z-index: 1;
+      // Transition property
+      transform: translate(-50%, 100%);
+      transition: transform 0.3s, opacity 0.3s;
+    }
+  }
+}
+
+
+
+
+/* Desktop - 1024px */
+@media only screen and (min-width: 64rem) {
+  #dark-mode-toggle {
+    margin: 0;
+    position: relative;
+    top: auto;
+    right: auto;
+    transform: none;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+
+// // scrollbar
+// .custom-scrollbar{
+//   /* Hide default scrollbar for WebKit browsers */
+//   &::-webkit-scrollbar {
+//     height: 8px; /* Short height for the scrollbar */
+// }
+
+// /* Track styling */
+// &::-webkit-scrollbar-track {
+//     background: rgba(0, 0, 0, 0.05);
+//     border-radius: 20px;
+// }
+
+// /* Handle styling - pill shape */
+// &::-webkit-scrollbar-thumb {
+//     background: rgba(0, 0, 0, 0.2);
+//     border-radius: 10px;
+
+// }
+
+// /* Handle on hover */
+// &::-webkit-scrollbar-thumb:hover {
+//     background: rgba(0, 0, 0, 0.3);
+// }
+
+//     /* Firefox scrollbar styling */
+// scrollbar-width: thin;
+// scrollbar-color: rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.05);
+// }
+// // dark mode
+// body.dark-mode {
+//   .custom-scrollbar{
+//     /* Track styling */
+//    &::-webkit-scrollbar-track {
+//        background: rgba(255, 255, 255, 0.15);
+//    }
+
+//    /* Handle styling - pill shape */
+//        &::-webkit-scrollbar-thumb {
+//            background: rgba(255, 255, 255, 0.4);
+
+//        }
+   
+//    /* Handle on hover */
+//    &::-webkit-scrollbar-thumb:hover {
+//        background: rgba(255, 255, 255, 0.4);
+//    }
+//    /* Firefox scrollbar styling */
+//    scrollbar-width: thin;
+//    scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.15);
+//    }
+// }

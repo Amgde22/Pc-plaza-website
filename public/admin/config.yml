@@ -1,0 +1,50 @@
+# See full Decap documentation for further configuration: https://decapcms.org/docs/intro/
+backend:
+  name: git-gateway
+  branch: main # Branch to update (optional; defaults to master)
+local_backend: true
+media_folder: src/assets/images/products # Location where files will be stored in the repo - adjusted to store all images, including products and blogs.
+public_folder: ../../assets/images/products  # Ensure that this path matches the media_folder path above.
+site_url: https://pc-plaza15.com # Displays a link to home page in the top-right corner of the CMS dashboard
+logo_url: https://i.postimg.cc/d1zvfVrr/logo.jpg # Change URL to a link to the image you want to use, no file paths, must be a URL
+
+collections:
+  - name: "products" # New collection for products
+    label: "Product" # Used in the admin dashboard UI
+    editor:
+      preview: false
+    folder: "src/content/products" # The path to the folder where the product entries are stored
+    create: true # Allow users to create new product entries
+    identifier_field: "name"
+    slug: "{{name}}-{{price}}"
+    format: "json" # Save entries in JSON format
+    fields: # The fields for each product
+      - label: "Instructions"
+        name: "instructions"
+        widget: "markdown"
+        minimal: true
+        buttons: []
+        editor_components: []
+        required: false
+        default: "**Légende des champs:**\n- ✅ indique un champ obligatoire\n- ❓ indique un champ optionnel\n- 🔹 indique que vous pouvez ajouter plusieurs éléments"
+      - { label: "✅ Nom de produit", name: "name", widget: "string" }
+      - { label: "✅ Description", name: "description", widget: "text" }
+      - { label: "✅ Prix final (DZD)", name: "price", widget: "number", min: 0, hint: "Prix final après réduction. EXEMPLE : \"2000\"" }
+      - { label: "❓Prix sans promotion (DZD)", name: "offer", widget: "number", min: 0, required: false, hint: "Prix avant réduction (plus élevé que le prix final). EXEMPLE : \"3000\" pour un produit dont le prix final est \"2000\"" }
+      - { label: "✅ Image", name: "image", widget: "image" }
+      - label: "🔹❓Photos additionnelles"
+        name: "images"
+        widget: "list"
+        allow_add: true
+        required: false
+        fields:
+          - { label: "Image", name: "image", widget: "image" }
+      - { label: "🔹❓Tags", name: "tags", widget: "select", multiple: true, options: ["ordinateur de bureau", "ordinateur portable", "gaming", "audio", "souris", "clavier", "câbles", "accessoires", "écrans","réseau","stockage","ventilo","Carte Graphique","alimentation","RAM","processeur",], required: false, hint: "Sélectionner les tags pour catégoriser les produits" }
+      - label: "❓ Statut de stock"
+        name: "in_stock" 
+        widget: "select"
+        options:
+          - { label: "En stock", value: "true" } 
+          - { label: "Hors stock", value: "false" } 
+        default: "true"   
+        hint: "Sélectionner si le produit est en stock ou non."

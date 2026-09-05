@@ -1,0 +1,43 @@
+{
+  "extends": "astro/tsconfigs/base",
+  "include": [
+    ".astro/types.d.ts",
+    "**/*"
+  ],
+  "exclude": [
+    "dist"
+  ],
+  "compilerOptions": {
+    "strict": true,
+    "strictNullChecks": true,
+    "checkJs": false,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@assets/*": [
+        "src/assets/*"
+      ],
+      "@data/*": [
+        "src/data/*"
+      ],
+      "@styles/*": [
+        "src/styles/*"
+      ],
+      "@components/*": [
+        "src/components/*"
+      ],
+      "@js/*": [
+        "src/js/*"
+      ],
+      "@icons/*": [
+        "src/icons/*"
+      ],
+      "@locales/*": [
+        "src/locales/*"
+      ]
+    },
+    "incremental": true,
+    "skipLibCheck": true,
+    "jsx": "preserve"
+  }
+}

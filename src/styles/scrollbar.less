@@ -1,0 +1,88 @@
+// Variables for scrollbar customization
+@scrollbar-size: 8px;               // Controls scrollbar thickness
+@scrollbar-track-bg-light: rgba(0, 0, 0, 0.05);
+@scrollbar-thumb-bg-light: rgba(0, 0, 0, 0.2);
+@scrollbar-thumb-hover-light: rgba(0, 0, 0, 0.3);
+@scrollbar-track-bg-dark: rgba(255, 255, 255, 0.15);
+@scrollbar-thumb-bg-dark: rgba(255, 255, 255, 0.3);
+@scrollbar-thumb-hover-dark: rgba(255, 255, 255, 0.4);
+@scrollbar-border-radius: 10px;
+
+// Mixin for cross-browser scrollbar styling
+.scrollbar-styling(@track, @thumb, @thumb-hover) {
+  // WebKit browsers (Chrome, Safari, newer versions of Opera, etc)
+  &::-webkit-scrollbar {
+    width: @scrollbar-size;
+    height: @scrollbar-size;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: @track;
+    border-radius: @scrollbar-border-radius;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: @thumb;
+    border-radius: @scrollbar-border-radius;
+    border: 2px solid transparent;
+    background-clip: padding-box;  // Creates padding effect for smoother look
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: @thumb-hover;
+    background-clip: padding-box;
+  }
+
+  // Firefox
+  scrollbar-width: thin;
+  scrollbar-color: @thumb @track;
+
+  // For Edge legacy and IE
+  -ms-overflow-style: auto;
+  scrollbar-face-color: @thumb;
+  scrollbar-track-color: @track;
+  scrollbar-arrow-color: @thumb;
+  scrollbar-shadow-color: @thumb;
+  scrollbar-darkshadow-color: @track;
+}
+
+// Apply the styles
+.custom-scrollbar {
+  .scrollbar-styling(
+    @scrollbar-track-bg-light,
+    @scrollbar-thumb-bg-light,
+    @scrollbar-thumb-hover-light
+  );
+  
+  // Ensure smooth scrolling across browsers
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  
+  // Fix for older Edge versions
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+// Dark mode version
+body.dark-mode {
+  .custom-scrollbar {
+    .scrollbar-styling(
+      @scrollbar-track-bg-dark,
+      @scrollbar-thumb-bg-dark,
+      @scrollbar-thumb-hover-dark
+    );
+  }
+}
+
+// Optional: Media query for mobile devices - smaller scrollbar
+@media (max-width: 768px) {
+  :root {
+    --scrollbar-size-mobile: 6px;  // Smaller size for mobile
+  }
+  
+  .custom-scrollbar {
+    &::-webkit-scrollbar {
+      width: var(--scrollbar-size-mobile);
+      height: var(--scrollbar-size-mobile);
+    }
+  }
+}

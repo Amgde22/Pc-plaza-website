@@ -1,0 +1,104 @@
+{
+    "products": [
+      {
+        "id": "1",
+        "name": "Intel Core i9-13900K Desktop Processor",
+        "description": "The ultimate desktop processor for gaming, content creation, and heavy workloads. Featuring 24 cores (8 P-cores + 16 E-cores) and up to 5.8 GHz clock speed.",
+        "price": 599.99,
+        "offer": {
+          "type": "discount",
+          "value": 0.10,
+          "description": "10% off for a limited time!"
+        },
+        "category": "CPU"
+      },
+      {
+        "id": "2",
+        "name": "NVIDIA GeForce RTX 4080 16GB GDDR6X",
+        "description": "The latest generation graphics card for immersive gaming and professional applications. Experience ray tracing, DLSS, and unparalleled performance.",
+        "price": 1199.00,
+        "offer": {
+          "type": "free_item",
+          "item": "Gaming Mousepad",
+          "description": "Get a free high-quality gaming mousepad with your RTX 4080!"
+        },
+        "category": "GPU"
+      },
+      {
+        "id": "3",
+        "name": "Samsung 990 Pro 2TB PCIe 4.0 NVMe SSD",
+        "description": "Blazing-fast storage for your operating system, games, and applications. Read speeds up to 7,450 MB/s and write speeds up to 6,900 MB/s. Blazing-fast storage for your operating system, games, and applications. Read speeds up to 7,450 MB/s and write speeds up to 6,900 MB/sBlazing-fast storage for your operating system, games, and applications. Read speeds up to 7,450 MB/s and write speeds up to 6,900 MB/sBlazing-fast storage for your operating system, games, and applications. Read speeds up to 7,450 MB/s and write speeds up to 6,900 MB/s",
+        "price": 179.99,
+        "offer": null,
+        "category": "Storage"
+      },
+      {
+        "id": "4",
+        "name": "Corsair Vengeance DDR5 32GB (2x16GB) 5600MHz",
+        "description": "High-performance DDR5 memory for the latest CPUs. Experience faster speeds and improved responsiveness.",
+        "price": 129.99,
+        "offer": {
+          "type": "bundle",
+          "items": ["CPU Cooler"],
+          "value": 0.05,
+          "description": "Save 5% when you bundle with a compatible CPU cooler!"
+        },
+        "category": "RAM"
+      },
+      {
+        "id": "5",
+        "name": "ASUS ROG Strix Z790-E Gaming WiFi Motherboard",
+        "description": "Premium Z790 motherboard with advanced features for overclocking and customization. Supports the latest Intel 13th Gen processors.",
+        "price": 429.99,
+        "offer": null,
+        "category": "Motherboard"
+      },
+      {
+        "id": "6",
+        "name": "Alienware AW3423DW 34-Inch QD-OLED Gaming Monitor",
+        "description": "Immersive ultrawide gaming monitor with vibrant colors and incredible contrast. 3440x1440 resolution, 175Hz refresh rate, and G-Sync compatibility.",
+        "price": 999.00,
+        "offer": {
+          "type": "discount",
+          "value": 50,
+          "description": "$50 off with code 'GAMERMONITOR' at checkout!"
+        },
+        "category": "Monitor"
+      },
+      {
+        "id": "7",
+        "name": "Logitech G Pro X Superlight Wireless Gaming Mouse",
+        "description": "Ultralight and responsive wireless gaming mouse. Trusted by esports professionals.",
+        "price": 129.00,
+        "offer": null,
+        "category": "Mouse"
+      },
+      {
+        "id": "8",
+        "name": "Razer BlackWidow V3 Pro Wireless Mechanical Keyboard",
+        "description": "Wireless mechanical keyboard with customizable Chroma RGB lighting and tactile switches.",
+        "price": 229.99,
+        "offer": null,
+        "category": "Keyboard"
+      },
+      {
+        "id": "9",
+        "name": "NZXT H510i Compact ATX Mid-Tower Case",
+        "description": "Sleek and modern case with integrated smart device for easy fan and RGB control.",
+        "price": 89.99,
+        "offer": {
+          "type": "free_shipping",
+          "description": "Free shipping on all orders over $50!"
+        },
+        "category": "Case"
+      },
+      {
+        "id": "10",
+        "name": "Cooler Master MasterLiquid ML360R RGB CPU Cooler",
+        "description": "High-performance liquid cooler with customizable RGB lighting. Keep your CPU running cool and quiet.",
+        "price": 159.99,
+        "offer": null,
+        "category": "Cooling"
+      }
+    ]
+  }

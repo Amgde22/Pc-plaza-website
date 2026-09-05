@@ -1,0 +1,72 @@
+.me-auto{
+    margin-inline-end: auto;
+}
+.whatsapp-bg{
+    background-color: var(--whatsapp) !important;
+}
+.flex{
+    display: flex;
+    align-items: center;
+}
+.flex-0{
+    flex: 0 0 auto;
+}
+
+.font-logo{
+    font-family: "Wallpoet", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+.roboto {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+.fz-logo{
+    
+}
+.text-center{
+    text-align: center;
+}
+
+
+@keyframes popup {
+    0% {
+      transform: scale(0.7);
+      opacity: 0; /* Optional: Fade in as well */
+    }
+    80% {
+      transform: scale(1.05); /* Overshoot */
+      opacity: 1; /* Optional */
+    }
+    100% {
+      transform: scale(1); /* Settle */
+      opacity: 1; /* Optional */
+    }
+  }
+
+  @keyframes popout {
+    0% {
+    transform: scale(1) ; /* Settle */
+    opacity: 1; /* Optional */
+
+    }
+
+    100% {
+      transform: scale(0.8) ; /* Settle */
+      opacity: 0; /* Optional */
+
+    }
+  }
+  
+//   .truncate-text::after {
+//     content: '...';
+//     position: absolute;
+//     bottom: 0;
+//     right: 0;
+//     background-color: white; /* Match this to your background color */
+//     padding-left: 0.5em;
+//   }

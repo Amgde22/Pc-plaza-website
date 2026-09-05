@@ -1,0 +1,167 @@
+---
+import BaseLayout from "src/layouts/BaseLayout.astro";
+import CTA from "@components/CTA.astro";
+import FAQ from "@components/FAQ.astro";
+import { getCollection } from "astro:content";
+
+// Optimize our landing image and pass it as props to the BaseLayout (for preloading) and Landing (for rendering)
+import {getOptimizedImage,getOptimizedCardImage} from "@js/utils"
+import landingImage from "@assets/images/hero.webp" // <-- THE PATH TO THE ASSET YOU WANT TO PRELOAD - The asset must live in src
+import Hero from "@components/Hero.astro";
+import Products from "@components/Products.vue";
+import '@shoelace-style/shoelace/dist/components/button/button.js';
+import { getLocalePath, t } from "i18n:astro";
+
+const optimizedImage = await getOptimizedImage(landingImage)
+
+const products = await getCollection("products")
+.then(productArray => 
+  productArray.sort((a, b) => {
+    // This uses the file's internal creation order, but it's not guaranteed
+    return productArray.indexOf(b) - productArray.indexOf(a)
+  })
+)
+
+
+const productsProcessedImages = await processProductImages(products)
+
+
+/**
+ * Processes and optimizes images for a collection of products
+ * @param {Array} products - Array of product objects, each containing id and data.image
+ * @returns {Promise<Object>} Object mapping product IDs to their optimized images
+ * @throws {Error} If image optimization fails
+ */
+
+async function processProductImages(products) {
+  // Input validation
+  if (!Array.isArray(products)) {
+    throw new TypeError('Products must be an array');
+  }
+
+  const imageEntries = await Promise.all(products.map( async({id,data})=>{
+
+    try{    
+      // optimize main image
+     const optimizedMainImage = await getOptimizedCardImage(data.image);
+
+      // optimize carousel images
+      const optimizedCarouselImages = data.images ? // because its an optional field
+        await Promise.all(data.images.map(async (img)=>{
+          return  getOptimizedCardImage(img.image); //yes 
+        })) 
+        : []
+      // make the entry
+      const imageEntry = [id , {
+        image:optimizedMainImage ,
+        images:optimizedCarouselImages,
+        error: null
+      }]
+      return imageEntry
+    } catch (err) {
+        console.error(`❌ Optimization failed for [${id}]:`, err.message);
+        return [id, { image: null, images: [], error: err.message }];
+      }
+
+  }))
+
+
+  // turn array of [id,entry] to an object
+  return Object.fromEntries(imageEntries)
+}
+
+// Flag to track if data is ready
+const dataIsReady = products && productsProcessedImages;
+
+const pageTitle = t("home.title");
+const pageDescription = t("home.description");
+const discoverMoreText = t("home.discover_more");
+const loadingProductsText = t("home.loading_products");
+
+
+---
+
+
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  preloadedImage = {optimizedImage}
+>
+
+
+<Hero />
+
+<!-- products -->
+{dataIsReady ? (
+  <Products 
+    client:only="vue" 
+    products={products} 
+    productImages={productsProcessedImages} 
+    isSection={true} 
+
+  />
+) : (
+  <div class="loading-state">{loadingProductsText}</div>
+)}
+
+<div class="center">
+  <sl-button class="button" variant="neutral" size="large" href={getLocalePath("/produits")} >
+    {discoverMoreText} 
+    <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 48 48">
+      <defs>
+        <mask id="ipSRightC0">
+          <g fill="none" stroke-linejoin="round" stroke-width="4">
+            <path fill="#fff" stroke="#fff" d="M24 44c11.046 0 20-8.954 20-20S35.046 4 24 4S4 12.954 4 24s8.954 20 20 20Z" />
+            <path stroke="#000" stroke-linecap="round" d="m21 33l9-9l-9-9" />
+          </g>
+        </mask>
+      </defs>
+      <path fill="white" d="M0 0h48v48H0z" mask="url(#ipSRightC0)" />
+    </svg>
+    
+  </sl-button>
+</div>
+
+ 
+  <!-- ============================================ -->
+  <!--                    FAQ                       -->
+  <!-- ============================================ -->
+  <FAQ />
+
+
+
+</BaseLayout>
+
+
+
+<style lang="less">
+  
+
+  .center{
+    padding-top: 12px;
+    display: flex;
+    justify-content: center;
+  }
+  .button::part(base){
+    border: none;
+    background-color: var(--primary);
+  }
+  .button::part(label) {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  :global([dir="rtl"]) .chevron-icon{
+    rotate:180deg;
+  }
+
+  body.dark-mode{
+    .button::part(base){
+    background-color: var(--medium);
+  }
+  }
+
+
+</style>

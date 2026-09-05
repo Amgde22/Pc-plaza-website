@@ -1,0 +1,25 @@
+{
+  "instructions": "**Légende des champs:**\n- ✅ indique un champ obligatoire\n- ❓ indique un champ optionnel\n- 🔹 indique que vous pouvez ajouter plusieurs éléments",
+  "in_stock": "true",
+  "description": "\n‎قوة، صلابة وأداء استثنائي للمحترفين! 💻🔥\n‎​📋 المواصفات التقنية (Fiche Technique):\n‎​🔹 المعالج (Processor): AMD Ryzen™ 7 PRO 8840U (3.30 GHz / 8 Cœurs / 16 MB Cache) ⚡\n‎🔹 الذاكرة العشوائية (RAM): 32 GB DDR5 (5600 MT/s) — أداء جبار للمهام الثقيلة! 💥\n‎🔹 مساحة التخزين (Disque Dur): 512 GB SSD NVMe 💾\n‎🔹 وحدة الذكاء الاصطناعي (NPU): NPU Compute Accelerator Device 🤖\n‎🔹 بطاقة الشاشة (Carte Graphique): AMD Radeon™ 780M (1 GB VRAM) 🎨\n‎🔹 الشاشة (Écran): 14 بوصة Full HD+ IPS 🖥️\n‎🔹 لوحة المفاتيح (Clavier): مضاءة (Clavier Lumineux) ✨\n‎🔹 الأمان والحماية:\n‎• بصمة الأصبع (Empreinte digitale) 🔑\n‎• التعرف على الوجه (Reconnaissance faciale) 👤\n‎​💰 السعر: 148,000 دج (14 مليون و800)\n‎​📦 التوصيل متوفر لـ 58 ولاية 🚚",
+  "name": "LENOVO THINKPAD T14 GEN 5 ",
+  "image": "../../assets/images/products/lenovo_thinkpad_ad.jpg",
+  "tags": [
+    "ordinateur portable"
+  ],
+  "images": [
+    {
+      "image": "../../assets/images/products/788000597_18485971834101690_6013274772917195048_n.jpg"
+    },
+    {
+      "image": "../../assets/images/products/786121600_18485971867101690_2878737788773518272_n.jpg"
+    },
+    {
+      "image": "../../assets/images/products/785943838_18485971927101690_8185770018461535760_n.jpg"
+    },
+    {
+      "image": "../../assets/images/products/787035568_18485971957101690_8987343576758576114_n.jpg"
+    }
+  ],
+  "price": 148000
+}

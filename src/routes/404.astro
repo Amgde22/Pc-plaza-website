@@ -1,0 +1,154 @@
+---
+import BaseLayout from "src/layouts/BaseLayout.astro";
+import landingImage from "@assets/images/hero.webp";
+import { getOptimizedImage } from "@js/utils";
+import Landing from "@components/Landing.astro";
+import { getLocalePath, t } from "i18n:astro";
+
+const optimizedImage = await getOptimizedImage(landingImage);
+
+const pageTitle = t("error404.title");
+const pageDescription = t("error404.description");
+const headingText = t("error404.heading");
+const messageText = t("error404.message");
+const backToHomeText = t("error404.back_to_home");
+const previousPageText = t("error404.previous_page");
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  preloadedImage={optimizedImage}
+>
+  <Landing title="404" image={optimizedImage} />
+
+  <main class="error-container">
+    <div class="error-content">
+      <div class="error-code">
+        <span>4</span>
+        <sl-spinner class="zero-spinner"></sl-spinner>
+        <span>4</span>
+      </div>
+
+      <h1>{headingText}</h1>
+
+      <p class="error-message">
+        {messageText}
+      </p>
+
+      <div class="action-buttons">
+        <sl-button class="button" variant="primary" size="large" href="/">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M22 9L12 1L2 9v2h2v10h5v-4a3 3 0 1 1 6 0v4h5V11h2z" />
+          </svg>
+          {backToHomeText}
+        </sl-button>
+
+        <sl-button class="button" variant="neutral" size="large" href="javascript:history.back()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 20 20">
+            <path fill="currentColor" d="M19 7v6c0 1.103-.896 2-2 2H3v-3h13V8H5v2L1 6.5L5 3v2h12a2 2 0 0 1 2 2" />
+          </svg>
+          {previousPageText}
+        </sl-button>
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<script>
+  // Import Shoelace components
+  import '@shoelace-style/shoelace/dist/components/button/button.js';
+  import '@shoelace-style/shoelace/dist/components/spinner/spinner.js';
+</script>
+
+<style>
+  /* Main Styles */
+  main {
+    display: flex;
+    place-items: center;
+    min-height: 50vh;
+  }
+
+  /* Error Container Styles */
+  .error-container {
+    display: flex;
+    min-height: 80vh;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 2rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  /* Error Content Styles */
+  .error-content {
+    flex: 1;
+    max-width: 600px;
+  }
+
+  /* Error Code Styles */
+  .error-code {
+    display: flex;
+    align-items: center;
+    font-size: 8rem;
+    font-weight: 900;
+    color: var(--sl-color-primary-600);
+    margin-bottom: 1rem;
+    line-height: 1;
+  }
+
+  /* Zero Spinner Styles */
+  .zero-spinner {
+    font-size: 6rem;
+    --track-width: 8px;
+    --indicator-color: var(--sl-color-primary-600);
+    margin: 0 0.5rem;
+  }
+
+  /* Heading Styles */
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--sl-color-neutral-900);
+  }
+
+  /* Error Message Styles */
+  .error-message {
+    font-size: 1.25rem;
+    color: var(--sl-color-neutral-700);
+    margin-bottom: 2rem;
+    line-height: 1.5;
+  }
+
+  /* Action Buttons Styles */
+  .action-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+  }
+
+  /* Button Label Styles */
+  .button::part(label) {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* Responsive Styles */
+  @media (max-width: 900px) {
+    .error-container {
+      flex-direction: column-reverse;
+      text-align: center;
+    }
+
+    .error-code {
+      justify-content: center;
+    }
+
+    .action-buttons {
+      justify-content: center;
+    }
+  }
+</style>

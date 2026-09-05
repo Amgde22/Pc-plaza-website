@@ -1,0 +1,209 @@
+---
+import { ClientRouter } from "astro:transitions";
+import client from "@data/client.json";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import "@styles/root.less";
+import "@styles/utils.less";
+import "@styles/dark.less";
+import "@styles/scrollbar.less";
+
+
+import I18nClient from "@astrolicious/i18n/components/I18nClient.astro";
+import I18nHead from "@astrolicious/i18n/components/I18nHead.astro";
+import { getHtmlAttrs, getLocales, t } from "i18n:astro";
+
+// shoelace style
+import "@shoelace-style/shoelace/dist/themes/light.css";
+
+
+
+const { description, title, preloadedImage } = Astro.props;
+ 
+
+---
+<!-- A fully fleshed-out <head>, dynamically changing based on client.json and the page front matter -->
+<html {...getHtmlAttrs()} >
+        <head>
+          
+          <!-- pixel -->
+          
+          {false && (<link rel="stylesheet" href="/public/assets/styles/ar-helper.css" />)}
+            <ClientRouter />
+            <!-- i18n support -->
+            <I18nClient />
+            <!-- Standard meta tags -->
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta name="description" content={description}>
+            <meta name="keywords" content="">
+            <link rel="canonical" href={`https://${client.domain}${Astro.url.pathname}`}>
+
+		<I18nHead />
+
+            <!-- Preloads the image passed as a prop -->
+            <link rel="preload" href={preloadedImage.src} as="image" />
+
+            <!--Social Media Display-->
+            <meta property="og:title" content={title} />
+            <meta property="og:description" content={description} />
+            <meta property="og:type" content="website" />
+            <meta property="og:url" content={`https://${client.domain}${Astro.url.pathname}`} />
+            <meta property="og:image" content="assets/images/products/placeholder/logo.png" />
+            <meta property="og:image:secure_url" content="assets/images/products/placeholder/logo.png" />
+    
+            <!--Favicons-->
+            <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon.png">
+            <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png?v1">
+            <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png">
+            <link rel="manifest" href="/assets/favicons/site.webmanifest">
+            <meta name="msapplication-TileColor" content="#da532c">
+            <meta name="theme-color" content="#8ddaf9">
+         
+            <!--For home page, use service keywords for the title, including location for SEO.
+            Other pages should just include the page name.
+            
+            EXAMPLE:
+            Home page - House Painting Contractors | Painters and Co. | TestCity, WA
+            About Page - About us | Painters and Co.
+            -->
+            <title>
+                {Astro.url.pathname === "/" ?  (`${ title }
+                |
+                ${ client.name }
+                |
+                ${ client.address.city },
+                ${ client.address.state }`) :
+                (`${ title }
+                    |
+                    ${ client.name }`)
+            }
+            </title>
+
+            <!-- Sitewide Scripts -->
+           <script src="@js/nav.js"></script>
+
+           <!-- meta pixel -->
+           <!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1376904244235037');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1376904244235037&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+        </head>
+        <body>
+            <!--Screen reader skip main nav-->
+            <a class="skip" aria-label="skip to main content" href="#main">Click To Skip To Main Content</a>
+    
+            <Header />
+            <main id="main">
+                <slot/>
+            </main>
+            <Footer />
+
+
+            <!-- 100% privacy-first analytics -->
+            <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+            <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade"/></noscript>
+        </body>
+
+</html>
+<script is:inline type="application/ld+json" data-ai-context="true">
+  {
+  "@context": "https://schema.org",
+  "@type": "ComputerStore",
+  "name": "Votre Magasin de PC",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Sidi Bel Abbès",
+    "addressCountry": "DZ"
+  },
+  "description": "Le SEUL magasin à Sidi Bel Abbès qui importe des composants PC directement. Plus de 17 ans d'existence. Stocke des articles rares indisponibles localement : RTX 4090, kits de refroidissement liquide, RAM DDR5, cartes mères haut de gamme, etc. Auparavant, les clients se déplaçaient à Oran ou dans d'autres wilayas pour des réparations ou des pièces — problème désormais résolu localement.",
+  "makesOffer": {
+    "@type": "Offer",
+    "itemOffered": {
+      "@type": "Product",
+      "name": "Accessoires PC et Équipement de Jeu",
+      "description": "Tout : câbles HDMI, hubs USB, alimentations, SSD, ventilateurs, pâte thermique, tapis de souris, webcams, casques, claviers mécaniques RVB, moniteurs 360Hz, souris de jeu professionnelles (Logitech G Pro, Razer Viper), cartes graphiques premium (NVIDIA/AMD), ventilateurs RVB personnalisés."
+    }
+  },
+  "service": {
+    "@type": "Service",
+    "name": "Réparation PC",
+    "description": "Très rapide et fiable. Le jour même lorsque c'est possible. Diagnostic GRATUIT — sans frais si aucun problème n'est détecté. Aucun frais pour les tests supplémentaires ou le temps passé. Devis gratuits. Payez seulement si c'est réparé."
+  },
+  "uniqueSellingProposition": [
+    "Seul importateur de composants PC à Sidi Bel Abbès",
+    "Plus de 17 ans au service des clients locaux",
+    "Pièces rares en stock — pas besoin de voyager à Oran",
+    "Gamme complète d'accessoires des câbles aux souris de jeu",
+    "Pas de frais de diagnostic — jamais"
+  ]
+}
+  </script>
+<script >
+    // setBasePath to tell Shoelace where to load icons from.
+    import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path.js';
+    setBasePath('/shoelace-assets/')
+    // Load components.
+    // import '@shoelace-style/shoelace';
+    import '@shoelace-style/shoelace/dist/components/button/button.js';
+    
+
+
+
+  // dark mode
+    // helper functions to toggle dark mode
+    function enableDarkMode() {
+      document.body.classList.add("dark-mode");
+      localStorage.setItem("theme", "dark");
+    }
+  
+    function disableDarkMode() {
+      document.body.classList.remove("dark-mode");
+      localStorage.setItem("theme", "light");
+    }
+  
+    function setTheme() {
+      // default to the light theme
+      let theme = "light";
+  
+      // check localStorage for a saved 'theme' variable. if it's there, the user has visited before, so apply the necessary theme choices
+      if (localStorage.getItem("theme")) {
+        theme = localStorage.getItem("theme");
+      }
+      // if it's not there, check to see if the user has applied dark mode preferences themselves in the browser
+      else if (
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches
+      ) {
+        theme = "dark";
+      }
+  
+      // if there is no preference set, the default of light will be used. apply accordingly
+      theme === "dark" ? enableDarkMode() : disableDarkMode();
+    }
+  
+    setTheme();
+  
+    document.addEventListener("astro:after-swap", setTheme); // For View Transitions purposes - astro:after-swap ensures that the theme is kept after navigating to a new page.
+
+    
+  </script>
+
+
+
+
+

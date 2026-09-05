@@ -1,0 +1,125 @@
+---
+import BaseLayout from "src/layouts/BaseLayout.astro";
+
+import { getCollection } from "astro:content";
+
+// Optimize our landing image and pass it as props to the BaseLayout (for preloading) and Landing (for rendering)
+import {getOptimizedImage,getOptimizedCardImage} from "@js/utils"
+import landingImage from "@assets/images/hero.webp" // <-- THE PATH TO THE ASSET YOU WANT TO PRELOAD - The asset must live in src
+import ProductComponent from "@components/Products.vue";
+import { getLocalePath, t } from "i18n:astro";
+
+const optimizedImage = await getOptimizedImage(landingImage)
+
+const products = await getCollection("products");
+const productsProcessedImages = await processProductImages(products)
+
+//  product </ kayn
+
+
+/**
+ * Processes and optimizes images for a collection of products
+ * @param {Array} products - Array of product objects, each containing id and data.image
+ * @returns {Promise<Object>} Object mapping product IDs to their optimized images
+ * @throws {Error} If image optimization fails
+ */
+
+async function processProductImages(products) {
+  // Input validation
+  if (!Array.isArray(products)) {
+    throw new TypeError('Products must be an array');
+  }
+  
+  const processedImages = {};
+  
+  try {
+    // Use Promise.all to properly wait for all async operations to complete
+    await Promise.all(
+      products.map(async ({ id, data }) => {
+        if (!id || !data?.image) {
+          console.warn(`Skipping product with invalid data: ${id}`);
+          return;
+        }
+        
+        try {
+          // Optimize the main image
+          const optimizedMainImage = await getOptimizedCardImage(data.image);
+          
+          // Store the optimized image in the result object
+          processedImages[id] = {
+            image: optimizedMainImage
+          };
+        } catch (imageError) {
+          console.error(`Failed to optimize image for product ${id}:`, imageError);
+          // Store a placeholder or fallback for failed images
+          processedImages[id] = {
+            image: null,
+            error: 'Image optimization failed'
+          };
+        }
+      })
+    );
+    
+    return processedImages;
+  } catch (error) {
+    console.error('Error processing product images:', error);
+    throw new Error('Failed to process product images: ' + error.message);
+  }
+}
+
+// Flag to track if data is ready
+const dataIsReady = products && productsProcessedImages;
+
+const pageTitle = t("products.title");
+const pageDescription = t("products.description");
+const loadingProductsText = t("home.loading_products");
+
+
+---
+
+
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  preloadedImage = {optimizedImage}
+>
+
+
+
+<div class="padding">...</div>
+<!-- products -->
+{dataIsReady ? (
+  <ProductComponent 
+    client:only="vue" 
+    products={products} 
+    productImages={productsProcessedImages} 
+    isSection={false} 
+  />
+) : (
+  <div class="loading-state">{loadingProductsText}</div>
+
+)}
+ 
+  
+
+
+</BaseLayout>
+
+<style lang="less">
+  
+
+.padding{
+    padding-top: 5vw;
+    padding-top: max(10px,5vw);
+}
+@media only screen and (min-width: 1023px) {
+    .padding{
+            padding-top: 86px;
+        }
+}
+
+
+
+
+</style>

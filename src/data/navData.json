@@ -1,0 +1,13 @@
+[
+  {
+    "key": "Accueil",
+    "url": "/",
+    "children": []
+  },
+
+  {
+    "key": "Produits",
+    "url": "/produits/",
+    "children": []
+  }
+]
