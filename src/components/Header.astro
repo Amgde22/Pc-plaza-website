@@ -6,6 +6,8 @@ import DarkModeToggle from "@components/DarkModeToggle.astro";
 import AmButton from "./AmButton.vue";
 import { t } from "i18n:astro";
 
+import LogoImg from "@assets/images/logo.png"
+
 const {whatsappLink} = data
 const googleMapsLink = data.address.mapLink
 const header = t("header",{ returnObjects: true });
@@ -34,7 +36,7 @@ const langName = isFrench ? "Arabic" : "Français"; // For the mobile menu text
   <div class="cs-container">
     <!--Nav Logo-->
     <a href="/" class="cs-logo" aria-label="back to home">
-      <img src="/assets/images/products/placeholder/logo.png" alt="">
+      <img src={LogoImg.src} alt="">
     </a>
 
     <AmButton href={googleMapsLink} classes="me-auto" fontSize="1.2em" collapse>
