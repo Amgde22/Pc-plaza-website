@@ -1,18 +1,18 @@
 {
-	"name": "Info Pc Sba",
-	"email": "tester.infopc@gmail.com",
-	"whatsappLink":"https://wa.me/213770662425",
+	"name": "PC plaza 15",
+	"email": "ahmed.achaibous@gmail.com",
+	"whatsappLink":"https://wa.me/213792415956",
 
-	"phoneForTel": "0770662425",
-	"phoneFormatted": "0770662425",
-	"phoneForTel2":"0560863370",
+	"phoneForTel": "0792415956",
+	"phoneFormatted": "0792415956",
+
 	"address": {
-		"lineOne": "N 50c Cite 345 Lgt",
-		"lineTwo": "Al-wiam Sidi Jilali",
-		"city": "Sidi Bel Abbés",
+		"lineOne": "M3X2+38P AMYOUD",
+		"lineTwo": "En face Lycée HAMKI Boulevard",
+		"city": "Tizi Ouzou",
 		"state": "",
 		"zip": "",
-		"mapLink": "https://maps.app.goo.gl/ytN9YsnY5BVM4jvq5"
+		"mapLink": "https://maps.app.goo.gl/1uSaSxxQydBZgg71A"
 	},
-	"domain": "www.infopc-sba.com"
+	"domain": "www.pc-plaza15.com"
 }

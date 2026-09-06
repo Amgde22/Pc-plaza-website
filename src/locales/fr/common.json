@@ -12,21 +12,30 @@
     },
     "products": {
         "title": "Produits",
-        "description": "Large gamme d'ordinateurs portables à Tizi Ouzou : ordinateurs pro (ThinkPad, Precision, Latitude), ordinateurs gaming (LOQ, RTX), et ordinateurs d'occasion vérifiés (MacBook, Surface). Fiche technique FR/AR et prix compétitifs !",
-        "heading": "Nos Produits :",
-        "tags": {
-            "tout": "Tout",
-            "pc portable pro": "PC Portable Pro",
-            "pc portable gamer": "PC Portable Gamer",
-            "pc bureau": "PC Bureau",
-            "occasion": "Occasion",
-            "écrans": "Écrans",
-            "accessoires": "Accessoires",
-            "stockage": "Stockage",
-            "RAM": "Mémoire RAM",
-            "processeur": "Processeur"
+        "description": "Large choix de matériel informatique à Sidi Bel Abbès : ordinateurs, composants, périphériques et plus ! Trouvez la solution idéale pour vos besoins. Conseils personnalisés et prix compétitifs !",
+        "heading":"Nos Produits :",
+        "tags":{
+            "tout":"Tout",
+            "ordinateur de bureau": "ordinateur de bureau",
+            "ordinateur portable": "ordinateur portable",
+            "gaming": "gaming",
+            "audio": "audio",
+            "souris": "souris",
+            "clavier": "clavier",
+            "câbles": "câbles",
+            "accessoires": "accessoires",
+            "écrans": "écrans",
+            "réseau": "réseau",
+            "Réseau": "réseau",
+            "stockage": "stockage",
+            "ventilo": "ventilo",
+            "Carte Graphique": "Carte Graphique",
+            "alimentation": "alimentation",
+            "RAM": "RAM",
+            "processeur": "processeur"
         },
-        "learn_more": "En savoir plus"
+        "learn_more":"Découvrir"
+
     },
     "error404": {
         "title": "404 Page non trouvée",
@@ -67,7 +76,7 @@
         "pc_repair": "Occasions vérifiées",
         "contact": "Contactez-nous",
         "phone_prefix": "Téléphone :",
-        "click_to_email": "Contactez-nous sur Instagram",
+        "click_to_email": "Contactez-nous",
         "copyright": "© {year} - PC PLAZA Tizi Ouzou. Tous droits réservés.",
         "website_by": "Site web par",
         "manager": "(Gérant)",

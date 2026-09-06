@@ -147,6 +147,7 @@ const props = defineProps({
 @media only screen and (min-width: 0rem) {
   body.dark-mode {
     .custom-button {
+      border:2px solid var(--primary);
       --background-color: var(--medium);
       --text-color: white;
     }

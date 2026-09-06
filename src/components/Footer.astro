@@ -30,11 +30,7 @@ const email = footer.email
 <footer id="footer">
   <div class="container">
     <div class="left-section">
-      <a class="logo" href="/"
-        >      <h1 class="font-logo text-center">INFO Pc SBA</h1>
 
-        </a
-      >
     </div>
     <div class="right-section">
       <div class="lists">
@@ -126,14 +122,17 @@ const email = footer.email
       .logo {
         text-align: center;
         width: auto;
-        height: (32/16em);
+        height: (48/16em);
         margin: auto;
         margin-bottom: (30/16em);
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
 
         img {
           width: auto;
           height: 100%;
+          max-width: (280/16rem);
+          object-fit: contain;
           display: block;
         }
       }
@@ -299,7 +298,7 @@ const email = footer.email
 
       .logo {
         text-align: left;
-        height: (40/16rem);
+        height: (60/16rem);
         margin-left: 0;
       }
 
@@ -388,13 +387,8 @@ const email = footer.email
 @media only screen and (min-width: 0em) {
   body.dark-mode {
     #footer {
-      background: #061623;
+      background: var(--medium);
     }
   }
-}
-
-.logo{
-  filter: grayscale(1) brightness(1000%);
-
 }
 </style>
