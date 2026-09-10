@@ -986,29 +986,55 @@ onMounted(() => {
    Dark Mode Adjustments
    ========================================================================== */
 
-body.dark-mode {
+
+
+   body.dark-mode {
   .product-card {
-    background-color: #1e293b; // Slate 800
+    background-color: var(--sl-color-gray-800);
     border-color: rgba(255, 255, 255, 0.1);
     
-    .product-name, .learn-more-text { color: white; }
-    .product-price { color: var(--sl-color-sky-400); }
+    .product-name, .learn-more-text { color: #fff; }
+    .product-price { color: var(--color-primary-500); }
     
     .tag {
-      border-color: var(--sl-color-sky-500);
-      color: var(--sl-color-sky-500);
+      background-color: transparent;
+      border-color: var(--color-primary-500);
+      color: var(--color-primary-500);
     }
     
-    .product-offer-price { color: rgba(255,255,255,0.4); }
+    .product-offer-price { color: rgba(255, 255, 255, 0.4); }
   }
-  
+
+  /* Dialog — inherits the same neutral gray theme */
   .dialog-content {
-    background-color: #0f172a; // Slate 900
+    background-color: var(--sl-color-gray-800);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+
+    .dialog-product-name {
+      color: #fff;
+    }
+
+    .dialog-product-description {
+      color: rgba(255, 255, 255, 0.75);
+      border-top-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .close-button {
+      background-color: var(--sl-color-gray-700);
+      .close-icon { color: #fff; }
+      &:hover { background-color: var(--danger); }
+    }
   }
   
   .dialog-product-informarion-container .bottom-section {
-    background-color: #1e293b;
-    border-top: 1px solid rgba(255,255,255,0.1);
+    background-color: var(--sl-color-gray-900);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: none;
+
+    .product-price {
+      color: var(--color-primary-500);
+    }
   }
 }
 </style>

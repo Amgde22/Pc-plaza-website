@@ -1,0 +1,80 @@
+---
+import HeroContent from './HeroContent.astro';
+import HeroCarousel from './HeroCarousel.astro';
+import SocialsFaded from "@components/SocialsFaded.astro"
+---
+
+<!-- Main Hero Section -->
+<main class="hero-main">
+  <div class="carbon-overlay"></div>
+  <div class="site-container">
+    <div class="hero-grid">
+      <!-- Left: Copy, CTAs, Hardware Specs -->
+      <HeroContent />
+
+      <!-- Right: Hardware Carousel Showcase & Atmosphere -->
+      <HeroCarousel />
+    </div>
+
+    <!-- socials -->
+    <SocialsFaded />
+  </div>
+</main>
+
+<style lang="less">
+  // Encoded ultra-low contrast 2x2 twill weave
+  @carbon-svg: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%230b0b0e' d='M0 0h16v16H0z'/%3E%3Cpath fill='%23121217' d='M0 0h8v8H0zM8 8h8v8H8z'/%3E%3Cpath fill='%2317181f' d='M0 0l8 8H4L0 4zm8 0l8 8h-4l-4-4zm-8 8l8 8H4l-4-4zm8 0l8 8h-4l-4-4z'/%3E%3Cpath fill='%23060608' d='M4 0l4 4v4L0 0zm8 0l4 4v4L4 0zM4 8l4 4v4l-8-8zm8 0l4 4v4l-8-8z'/%3E%3C/svg%3E";
+
+  .hero-main {
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    background-color: #08080a;
+    background-image: url(@carbon-svg);
+    background-repeat: repeat;
+    background-size: 16px 16px;
+    padding: var(--sectionPadding, 3rem 0 3.5rem);
+    padding-bottom: 2em;
+
+    // Subtle edge vignette to feather pattern into surrounding sections
+    .carbon-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(
+        ellipse 90% 75% at 50% 50%,
+        rgba(8, 8, 10, 0.25) 0%,
+        rgba(8, 8, 10, 0.85) 80%,
+        #08080a 100%
+      );
+      z-index: 0;
+    }
+
+    .site-container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+    }
+
+    @media (max-width: 640px) {
+      padding-top: 100px;
+    }
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: center;
+    gap: 2.5rem;
+    position: relative;
+    margin: auto 0;
+
+    @media (min-width: 1024px) {
+      grid-template-columns: 1fr 1.25fr;
+      gap: 3rem;
+    }
+  }
+</style>

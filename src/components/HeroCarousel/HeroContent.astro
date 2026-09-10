@@ -1,0 +1,392 @@
+---
+import clinetData from "@data/client.json";
+import { Icon } from 'astro-icon/components';
+import { getLocalePath, t } from "i18n:astro";
+import selectAudio from "@assets/audio/select.mp3";
+
+export interface Props {
+  kickerText?: string;
+  kickerBadge?: string;
+  headlinePrimary?: string;
+  headlineStroke?: string;
+  description?: string;
+  primaryCtaText?: string;
+  secondaryCtaText?: string;
+}
+
+const heroContent = t("hero.content", { returnObjects: true }) as any;
+
+const {
+  kickerText = heroContent?.kickerText ?? "VELOX // FLAGSHIP PERFORMANCE",
+  kickerBadge = heroContent?.kickerBadge ?? "NEW GEN RELEASE",
+  headlinePrimary = heroContent?.headlinePrimary ?? "UNRIVALED",
+  headlineStroke = heroContent?.headlineStroke ?? "GAMING PERFORMANCE",
+  description = heroContent?.description ?? "Engineered with bleeding-edge liquid cooling and overclocked multi-threaded compute, our custom workstations and battle stations deliver unrelenting FPS and ultra-low thermals.",
+  primaryCtaText = heroContent?.primaryCtaText ?? "Customize Now",
+  secondaryCtaText = heroContent?.secondaryCtaText ?? "Explore Configurations",
+} = Astro.props as Props;
+
+const mapLink = clinetData.address.mapLink;
+const audioSrc = typeof selectAudio === 'string' 
+  ? selectAudio 
+  : (selectAudio as any)?.src || (selectAudio as any)?.default || '';
+---
+
+<div class="hero-content">
+  <!-- Live Kicker Row -->
+  <div class="kicker-row">
+    <span class="status-dot" aria-hidden="true"></span>
+    <span class="kicker-text">{kickerText}</span>
+    {kickerBadge && <span class="kicker-badge">{kickerBadge}</span>}
+  </div>
+
+  <!-- Primary Headline -->
+  <h1 class="hero-headline">
+    <span class="headline-stroke">{headlineStroke}</span>
+    <span class="headline-primary">{headlinePrimary}</span>
+  </h1>
+
+  <!-- Descriptive Subtext -->
+  <p class="hero-description">{description}</p>
+
+  <!-- High-Impact Action CTAs -->
+  <div class="action-buttons">
+    <a 
+      href={mapLink} 
+      class="btn-primary" 
+      id="btn-hero-customize" 
+      data-audio={audioSrc}
+      target="_blank" 
+      rel="noopener noreferrer"
+    >
+      <Icon class={"flex-0"} name="mdi--location" size={25} />
+      <span>{primaryCtaText}</span>
+    </a>
+    <a href={getLocalePath("/produits")} class="btn-secondary" id="btn-hero-explore">
+      <span>{secondaryCtaText}</span>
+    </a>
+  </div>
+</div>
+
+<script>
+  let audioCtx: AudioContext | null = null;
+  let audioBuffer: AudioBuffer | null = null;
+  let currentBtn: HTMLElement | null = null;
+  let lastPlayed = 0;
+
+  // Initialize or get the AudioContext singleton
+  function getAudioContext(): AudioContext {
+    if (!audioCtx) {
+      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+      audioCtx = new AudioContextClass();
+    }
+    return audioCtx;
+  }
+
+  // Pre-fetch and decode the audio into memory
+  async function loadSoundBuffer(url: string) {
+    if (audioBuffer) return audioBuffer;
+    try {
+      const ctx = getAudioContext();
+      const response = await fetch(url);
+      const arrayBuffer = await response.arrayBuffer();
+      audioBuffer = await ctx.decodeAudioData(arrayBuffer);
+      return audioBuffer;
+    } catch (e) {
+      console.warn('[Audio] Failed to decode audio file:', e);
+      return null;
+    }
+  }
+
+  // Play the sound with zero latency
+  async function triggerSound() {
+    const now = Date.now();
+    if (now - lastPlayed < 120) return; // Prevent spamming
+    lastPlayed = now;
+
+    try {
+      const ctx = getAudioContext();
+      if (ctx.state === 'suspended') {
+        await ctx.resume();
+      }
+
+      if (!audioBuffer && currentBtn?.dataset.audio) {
+        await loadSoundBuffer(currentBtn.dataset.audio);
+      }
+
+      if (audioBuffer && ctx.state === 'running') {
+        const source = ctx.createBufferSource();
+        source.buffer = audioBuffer;
+        source.connect(ctx.destination);
+        source.start(0);
+      }
+    } catch (err) {
+      // User hasn't interacted with page yet (browser autoplay guard)
+    }
+  }
+
+  // Global user-gesture unlock (any click/tap unlocks audio for the whole session)
+  const unlockAudio = async () => {
+    try {
+      const ctx = getAudioContext();
+      if (ctx.state === 'suspended') {
+        await ctx.resume();
+      }
+    } finally {
+      window.removeEventListener('pointerdown', unlockAudio);
+      window.removeEventListener('keydown', unlockAudio);
+    }
+  };
+
+  window.addEventListener('pointerdown', unlockAudio, { once: true });
+  window.addEventListener('keydown', unlockAudio, { once: true });
+
+  function setupAudio() {
+    currentBtn = document.getElementById('btn-hero-customize');
+    if (!currentBtn) return;
+
+    const audioUrl = currentBtn.dataset.audio;
+    if (audioUrl) {
+      loadSoundBuffer(audioUrl);
+    }
+
+    currentBtn.addEventListener('mouseenter', triggerSound);
+    currentBtn.addEventListener('pointerdown', triggerSound);
+  }
+
+  function teardownAudio() {
+    if (currentBtn) {
+      currentBtn.removeEventListener('mouseenter', triggerSound);
+      currentBtn.removeEventListener('pointerdown', triggerSound);
+      currentBtn = null;
+    }
+  }
+
+  document.addEventListener('astro:page-load', setupAudio);
+  document.addEventListener('astro:before-swap', teardownAudio);
+</script>
+
+<style lang="less">
+  @keyframes outlinePulse {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1.15);
+      opacity: 0;
+    }
+  }
+
+  @text-white: #ffffff;
+  @text-light: #f4f4f5;
+  @text-muted: #a1a1aa;
+  @text-dim: #71717a;
+  @border-subtle: rgba(255, 255, 255, 0.08);
+  @font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+
+    @media (max-width: 1024px) {
+      order: 2;
+    }
+
+    .kicker-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: var(--primary);
+        animation: livePulse 1.8s infinite ease-in-out;
+      }
+
+      .kicker-text {
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--primary);
+      }
+
+      .kicker-badge {
+        font-size: 0.65rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: @text-muted;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid @border-subtle;
+        padding: 0.2rem 0.5rem;
+        border-radius: 2px;
+      }
+    }
+
+    .hero-headline {
+      font-size: 3.5rem;
+      font-weight: 900;
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+
+      @media (max-width: 640px) {
+        font-size: 2.5rem;
+      }
+
+      .headline-primary {
+        display: block;
+        color: @text-white;
+      }
+
+      .headline-stroke {
+        display: block;
+        color: transparent;
+        -webkit-text-stroke: 1.5px var(--primary);
+        text-shadow: 0 0 30px rgba(229, 24, 33, 0.3);
+        margin-bottom: .25em;
+      }
+    }
+
+    .hero-description {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: @text-muted;
+      max-width: 520px;
+      margin-bottom: 2rem;
+
+      @media (max-width: 640px) {
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+      }
+    }
+
+    .action-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2.25rem;
+
+      .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.6rem;
+        padding: 0.875rem 1.875rem;
+        background-color: var(--primary);
+        color: black;
+        font-size: 0.85rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        border-radius: 2px;
+        transform: skewX(-12deg);
+        text-decoration: none;
+        transition: background-color 0.2s ease, transform 0.2s ease;
+        border: 3px solid transparent;
+
+        & > * {
+          transform: skewX(12deg);
+        }
+
+        &:hover {
+          background-color: var(--primary)-hover;
+          transform: skewX(-12deg) translateY(-1px);
+          color: white;
+          border: 3px solid var(--primary);
+        }
+        &::after {
+          content: "";
+          position: absolute;
+          inset: -3px;
+          border: 3px solid var(--primary);
+          opacity: 0;
+          pointer-events: none;
+          transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+        }
+
+        &:hover::after {
+          animation: outlinePulse 0.6s ease-out forwards;
+        }
+
+        svg {
+          width: 16px;
+          height: 16px;
+        }
+      }
+
+      .btn-secondary {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.875rem 1.625rem;
+        background-color: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        color: @text-light;
+        font-size: 0.85rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        text-decoration: none;
+        border-radius: 2px;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.08);
+          border-color: rgba(255, 255, 255, 0.3);
+          color: @text-white;
+        }
+      }
+    }
+
+    .specs-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+
+      .spec-item {
+        display: flex;
+        flex-direction: column;
+
+        .spec-label {
+          font-size: 0.65rem;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          color: @text-dim;
+        }
+
+        .spec-value {
+          font-size: 0.8rem;
+          font-weight: 700;
+          color: @text-light;
+          font-family: @font-mono;
+        }
+      }
+    }
+  }
+
+  @keyframes livePulse {
+    0% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.4;
+      transform: scale(1.15);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+</style>

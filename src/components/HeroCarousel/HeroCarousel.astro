@@ -1,0 +1,627 @@
+---
+import type { ImageMetadata } from 'astro';
+import { t } from "i18n:astro";
+import slide1Img from '@assets/images/hero.webp';
+import slide2Img from '@assets/images/cpu.webp';
+import slide3Img from '@assets/images/screw.webp';
+import slide4Img from '@assets/images/laptop.webp';
+
+export interface CarouselSlide {
+  id: string;
+  image: string | ImageMetadata;
+  alt: string;
+  modelBadge?: string;
+  titlePrefix?: string;
+  titleHighlight?: string;
+}
+
+export interface Props {
+  slides?: CarouselSlide[];
+  autoplayInterval?: number;
+  defaultAutoplay?: boolean;
+}
+
+const carouselI18n = t("hero.carousel", { returnObjects: true }) as any;
+const slidesText = carouselI18n?.slides ?? [];
+const statusTemplate = carouselI18n?.statusText ?? "CUSTOM BUILD ONLINE • SLIDE {current} OF {total}";
+
+const rawImages = [slide1Img, slide2Img, slide3Img, slide4Img];
+
+const CAROUSEL_SLOTS: CarouselSlide[] = rawImages.map((image, index) => ({
+  id: `slide-${index + 1}`,
+  image,
+  alt: slidesText[index]?.alt ?? '',
+  modelBadge: slidesText[index]?.modelBadge ?? '',
+  titlePrefix: slidesText[index]?.titlePrefix ?? '',
+  titleHighlight: slidesText[index]?.titleHighlight ?? '',
+}));
+
+const {
+  slides = CAROUSEL_SLOTS,
+  autoplayInterval = 6000,
+  defaultAutoplay = true
+} = Astro.props as Props;
+
+const initialStatusText = statusTemplate.replace('{current}', '1').replace('{total}', String(slides.length));
+---
+
+<!-- dir="ltr" forces LTR layout regardless of global document direction -->
+<div class="carousel-section" dir="ltr" data-autoplay-interval={autoplayInterval} data-default-autoplay={String(defaultAutoplay)}>
+  <div class="carousel-wrapper" id="hero-carousel" aria-roledescription="carousel" aria-label="Digital Storm Gaming Rig Showcase">
+    <!-- Godray Laser Streaks & Ambient Atmosphere -->
+    <div class="laser-streaks-bg" aria-hidden="true">
+      <div class="laser-beam laser-beam-1"></div>
+      <div class="laser-beam laser-beam-2"></div>
+      <div class="laser-beam laser-beam-3"></div>
+      <div class="laser-beam laser-beam-4"></div>
+    </div>
+
+    <div class="ambient-hardware-glow" aria-hidden="true"></div>
+
+    <!-- Viewport -->
+    <div class="carousel-viewport">
+      <div class="carousel-track" id="carousel-track">
+        {slides.map((slide, index) => (
+          <div
+            class="carousel-slide"
+            role="group"
+            aria-roledescription="slide"
+            aria-label={`Slide ${index + 1} of ${slides.length}: ${slide.titlePrefix ?? ''} ${slide.titleHighlight ?? ''}`}
+            data-index={index}
+          >
+            {slide.modelBadge && (
+              <span class="badge-tag">{slide.modelBadge}</span>
+            )}
+
+            <div class="hardware-image-container">
+              <img
+                src={typeof slide.image === 'string' ? slide.image : slide.image.src}
+                alt={slide.alt}
+                loading={index === 0 ? "eager" : "lazy"}
+                decoding={index === 0 ? "sync" : "async"}
+              />
+              <div class="floor-reflection" aria-hidden="true"></div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Chevrons -->
+      <button
+        type="button"
+        id="btn-carousel-prev"
+        class="nav-arrow nav-arrow-prev"
+        aria-label="Previous slide"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+
+      <button
+        type="button"
+        id="btn-carousel-next"
+        class="nav-arrow nav-arrow-next"
+        aria-label="Next slide"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Bottom Controls & Status Bar -->
+  <div class="bottom-bar">
+    <!-- Left: Status Info -->
+    <div class="status-info" id="status-info">
+      <span class="online-indicator"></span>
+      <span id="status-text" data-template={statusTemplate}>{initialStatusText}</span>
+    </div>
+
+    <!-- Center: Indicators -->
+    <div class="indicators-container" role="tablist" aria-label="Slide Indicators">
+      {slides.map((slide, index) => (
+        <button
+          type="button"
+          class={`indicator-dash ${index === 0 ? 'active' : ''}`}
+          role="tab"
+          aria-selected={index === 0 ? "true" : "false"}
+          aria-label={`Go to slide ${index + 1}: ${slide.titlePrefix ?? ''} ${slide.titleHighlight ?? ''}`}
+          data-slide-index={index}
+        />
+      ))}
+    </div>
+  </div>
+</div>
+
+<script>
+  // Store cleanup handler across transitions
+  let cleanup: (() => void) | null = null;
+
+  function initCarousel() {
+    // Clean up any existing instance/timers first
+    if (cleanup) {
+      cleanup();
+      cleanup = null;
+    }
+
+    const root = document.querySelector('.carousel-section') as HTMLElement | null;
+    if (!root) return; // Not on a carousel page
+
+    const track = root.querySelector('#carousel-track') as HTMLElement | null;
+    const prevBtn = root.querySelector('#btn-carousel-prev') as HTMLButtonElement | null;
+    const nextBtn = root.querySelector('#btn-carousel-next') as HTMLButtonElement | null;
+    const indicators = root.querySelectorAll<HTMLButtonElement>('.indicator-dash');
+    const statusText = root.querySelector('#status-text') as HTMLElement | null;
+    const carouselWrapper = root.querySelector('#hero-carousel') as HTMLElement | null;
+
+    const intervalDuration = parseInt(root.dataset.autoplayInterval || '6000', 10);
+    const isAutoplayActive = root.dataset.defaultAutoplay !== 'false';
+    const statusTemplate = statusText?.dataset.template || "CUSTOM BUILD ONLINE • SLIDE {current} OF {total}";
+
+    const totalSlides = indicators.length;
+    if (totalSlides === 0) return;
+
+    let currentIndex = 0;
+    let autoplayTimer: ReturnType<typeof setInterval> | null = null;
+
+    function updateCarousel(index: number) {
+      currentIndex = (index + totalSlides) % totalSlides;
+
+      if (track) {
+        track.style.transform = `translateX(-${currentIndex * 100}%)`;
+      }
+
+      indicators.forEach((ind, i) => {
+        const isActive = i === currentIndex;
+        ind.classList.toggle('active', isActive);
+        ind.setAttribute('aria-selected', String(isActive));
+      });
+
+      if (statusText) {
+        statusText.textContent = statusTemplate
+          .replace('{current}', String(currentIndex + 1))
+          .replace('{total}', String(totalSlides));
+      }
+    }
+
+    function nextSlide() {
+      updateCarousel(currentIndex + 1);
+    }
+
+    function prevSlide() {
+      updateCarousel(currentIndex - 1);
+    }
+
+    function startAutoplay() {
+      stopAutoplay();
+      if (!isAutoplayActive) return;
+      autoplayTimer = setInterval(() => {
+        nextSlide();
+      }, intervalDuration);
+    }
+
+    function stopAutoplay() {
+      if (autoplayTimer) {
+        clearInterval(autoplayTimer);
+        autoplayTimer = null;
+      }
+    }
+
+    // Button controls
+    const onPrevClick = () => {
+      prevSlide();
+      startAutoplay();
+    };
+    const onNextClick = () => {
+      nextSlide();
+      startAutoplay();
+    };
+
+    prevBtn?.addEventListener('click', onPrevClick);
+    nextBtn?.addEventListener('click', onNextClick);
+
+    // Indicator controls
+    const indicatorCleanups: Array<() => void> = [];
+    indicators.forEach((indicator) => {
+      const onIndicatorClick = (e: MouseEvent) => {
+        const target = e.currentTarget as HTMLElement;
+        const targetIndex = parseInt(target.getAttribute('data-slide-index') || '0', 10);
+        updateCarousel(targetIndex);
+        startAutoplay();
+      };
+      indicator.addEventListener('click', onIndicatorClick);
+      indicatorCleanups.push(() => indicator.removeEventListener('click', onIndicatorClick));
+    });
+
+    // Hover pause
+    const onMouseEnter = () => stopAutoplay();
+    const onMouseLeave = () => startAutoplay();
+    carouselWrapper?.addEventListener('mouseenter', onMouseEnter);
+    carouselWrapper?.addEventListener('mouseleave', onMouseLeave);
+
+    // Touch swipe support
+    let startX = 0;
+    const onTouchStart = (e: TouchEvent) => {
+      startX = e.touches[0].clientX;
+    };
+    const onTouchEnd = (e: TouchEvent) => {
+      const endX = e.changedTouches[0].clientX;
+      const diffX = startX - endX;
+      if (Math.abs(diffX) > 50) {
+        if (diffX > 0) {
+          nextSlide();
+        } else {
+          prevSlide();
+        }
+        startAutoplay();
+      }
+    };
+
+    track?.addEventListener('touchstart', onTouchStart, { passive: true });
+    track?.addEventListener('touchend', onTouchEnd, { passive: true });
+
+    // Keyboard navigation
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') {
+        prevSlide();
+        startAutoplay();
+      } else if (e.key === 'ArrowRight') {
+        nextSlide();
+        startAutoplay();
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+
+    // Initial autoplay boot
+    if (isAutoplayActive) {
+      startAutoplay();
+    }
+
+    // Register instance teardown
+    cleanup = () => {
+      stopAutoplay();
+      prevBtn?.removeEventListener('click', onPrevClick);
+      nextBtn?.removeEventListener('click', onNextClick);
+      indicatorCleanups.forEach((fn) => fn());
+      carouselWrapper?.removeEventListener('mouseenter', onMouseEnter);
+      carouselWrapper?.removeEventListener('mouseleave', onMouseLeave);
+      track?.removeEventListener('touchstart', onTouchStart);
+      track?.removeEventListener('touchend', onTouchEnd);
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }
+
+  // Astro ClientRouter event hooks
+  document.addEventListener('astro:page-load', initCarousel);
+  document.addEventListener('astro:before-swap', () => {
+    if (cleanup) {
+      cleanup();
+      cleanup = null;
+    }
+  });
+</script>
+
+<style lang="less">
+// Color Palette & Variables
+@bg-dark: #060608;
+@text-white: #ffffff;
+@text-muted: #a1a1aa;
+@text-dim: #71717a;
+@border-subtle: rgba(255, 255, 255, 0.08);
+@font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+.flex-center() {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+  direction: ltr !important;
+}
+
+.carousel-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  direction: ltr !important;
+
+  .carousel-viewport {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    direction: ltr !important;
+  }
+
+  .carousel-track {
+    display: flex;
+    width: 100%;
+    direction: ltr !important;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .carousel-slide {
+    flex: 0 0 100%;
+    min-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 0 0.5rem;
+    direction: ltr !important;
+
+    .hardware-image-container {
+      position: relative;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      direction: ltr !important;
+
+      img {
+        max-width: 100%;
+        height: auto;
+        max-height: 520px;
+        object-fit: contain;
+        display: block;
+        margin: 0 auto;
+        pointer-events: none;
+        user-select: none;
+        filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.8));
+
+      // Feathers outer 25% of all borders to transparent
+      -webkit-mask-image: radial-gradient(ellipse 90% 85% at 50% 50%, #000 65%, transparent 100%);
+      mask-image: radial-gradient(ellipse 90% 85% at 50% 50%, #000 65%, transparent 100%);
+
+
+        @media (max-width: 1024px) {
+          max-height: 440px;
+        }
+
+        @media (max-width: 640px) {
+          max-height: 320px;
+        }
+      }
+
+      .floor-reflection {
+        position: absolute;
+        bottom: -20px;
+        left: 0;
+        right: 0;
+        height: 50px;
+        background: linear-gradient(to bottom, transparent, @bg-dark);
+        pointer-events: none;
+      }
+    }
+
+    .badge-tag {
+      position: absolute;
+      top: 1rem;
+      right: 2rem;
+      left: auto;
+      background-color: rgba(6, 6, 8, 0.85);
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      font-size: 1.4rem; // 2x on Desktop
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.6rem 1.5rem;
+      border-radius: 4px;
+      z-index: 2;
+
+      // 1.5x on Tablet
+      @media (max-width: 1024px) {
+        font-size: 1.05rem;
+        padding: 0.45rem 1.125rem;
+        border-width: 1.5px;
+        border-radius: 3px;
+        top: 0.75rem;
+        right: 1.5rem;
+      }
+
+      // 1x original size on Mobile
+      @media (max-width: 640px) {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.75rem;
+        border-width: 1px;
+        border-radius: 2px;
+        top: 0.5rem;
+        right: 1rem;
+      }
+    }
+  }
+
+  // Prev / Next Chevrons
+  .nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    background-color: rgba(14, 14, 20, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: @text-muted;
+    border-radius: 4px;
+    .flex-center();
+    transition: all 0.2s ease;
+    cursor: pointer;
+
+    &:hover {
+      border-color: var(--primary);
+      color: @text-white;
+    }
+
+    svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    &-prev {
+      left: 0;
+      right: auto;
+    }
+
+    &-next {
+      right: 0;
+      left: auto;
+    }
+  }
+}
+
+// Godray Laser Streaks
+.laser-streaks-bg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: auto;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+  opacity: 0.65;
+  mix-blend-mode: screen;
+  -webkit-mask-image: radial-gradient(
+    ellipse 85% 85% at 85% 10%,
+    rgba(0, 0, 0, 1) 20%,
+    rgba(0, 0, 0, 0.7) 50%,
+    rgba(0, 0, 0, 0) 85%
+  );
+  mask-image: radial-gradient(
+    ellipse 85% 85% at 85% 10%,
+    rgba(0, 0, 0, 1) 20%,
+    rgba(0, 0, 0, 0.7) 50%,
+    rgba(0, 0, 0, 0) 85%
+  );
+
+  .laser-beam {
+    position: absolute;
+    transform: rotate(-35deg);
+    transform-origin: top right;
+    border-radius: 9999px;
+    pointer-events: none;
+    filter: blur(24px);
+    will-change: transform;
+
+    &-1 {
+      top: 4%;
+      right: 15%;
+      width: 700px;
+      height: 24px;
+      background: linear-gradient(90deg, transparent 0%, rgba(255, 0, 122, 0.45) 40%, rgba(255, 0, 122, 0.2) 75%, transparent 100%);
+    }
+
+    &-2 {
+      top: 10%;
+      right: 8%;
+      width: 900px;
+      height: 38px;
+      background: linear-gradient(90deg, transparent 0%, rgba(229, 24, 33, 0.5) 30%, rgba(255, 0, 153, 0.45) 60%, transparent 100%);
+    }
+
+    &-3 {
+      top: 22%;
+      right: 18%;
+      width: 650px;
+      height: 18px;
+      background: linear-gradient(90deg, transparent 0%, rgba(255, 20, 147, 0.35) 45%, transparent 100%);
+    }
+
+    &-4 {
+      top: 34%;
+      right: 6%;
+      width: 800px;
+      height: 30px;
+      background: linear-gradient(90deg, transparent 0%, rgba(208, 0, 111, 0.35) 35%, rgba(155, 0, 232, 0.25) 70%, transparent 100%);
+    }
+  }
+}
+
+.ambient-hardware-glow {
+  position: absolute;
+  right: 8%;
+  left: auto;
+  bottom: 10%;
+  width: 450px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(229, 24, 33, 0.22) 0%, rgba(139, 0, 255, 0.08) 50%, transparent 70%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+// Bottom Control Bar
+.bottom-bar {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  direction: ltr !important;
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .status-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.7rem;
+    font-family: @font-mono;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: @text-dim;
+    direction: ltr !important;
+
+    @media (max-width: 768px) {
+      display: none;
+    }
+
+    .online-indicator {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: #10b981;
+    }
+  }
+
+  .indicators-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    direction: ltr !important;
+
+    .indicator-dash {
+      height: 4px;
+      width: 30px;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 1px;
+      cursor: pointer;
+      border: none;
+      padding: 0;
+      transition: width 0.25s ease, background-color 0.25s ease;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.45);
+      }
+
+      &.active {
+        width: 60px;
+        background-color: var(--primary);
+      }
+    }
+  }
+}
+</style>

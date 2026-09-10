@@ -7,7 +7,7 @@ import { getCollection } from "astro:content";
 // Optimize our landing image and pass it as props to the BaseLayout (for preloading) and Landing (for rendering)
 import {getOptimizedImage,getOptimizedCardImage} from "@js/utils"
 import landingImage from "@assets/images/hero.webp" // <-- THE PATH TO THE ASSET YOU WANT TO PRELOAD - The asset must live in src
-import Hero from "@components/Hero.astro";
+import Hero from "@components/HeroCarousel/Hero.astro";
 import Products from "@components/Products.vue";
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 import { getLocalePath, t } from "i18n:astro";
@@ -159,7 +159,7 @@ const loadingProductsText = t("home.loading_products");
 
   body.dark-mode{
     .button::part(base){
-    background-color: var(--medium);
+    background-color: var(--primary);
   }
   }
 

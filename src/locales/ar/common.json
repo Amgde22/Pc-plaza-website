@@ -88,17 +88,35 @@
         "need_help": "تحتاج مساعدة ؟"
     },
     "hero": {
-        "title": "اختر جهازك، نحن نضمن الجودة",
-        "description": "PC PLAZA — وجهتك الموثوقة لأجهزة الكمبيوتر في تيزي وزو",
-        "cta": "تصفح المنتجات",
-        "service1_title": "أجهزة برو",
-        "service2_title": "أجهزة جيمينغ",
-        "service3_title": "بيع المعدات",
-        "service4_title": "أجهزة مستعملة مفحوصة",
-        "service1_description": "ThinkPad، Precision وLatitude للمحترفين والطلبة.",
-        "service2_description": "أجهزة بمعالج رسومي RTX لأداء ألعاب استثنائي.",
-        "service3_description": "أجهزة كمبيوتر جديدة بفيشة تقنية كاملة FR/AR.",
-        "service4_description": "فحص شامل للشاشة والبطارية قبل البيع."
+            "content": {
+                "kickerText": "تيزي وزو",
+                "kickerBadge": "",
+                "headlinePrimary": "وجهتك الموثوقة لأجهزة الكمبيوتر",
+                "headlineStroke": "PC PLAZA",
+                "description": "أجهزة كمبيوتر محمولة برو وجيمينغ، جديدة ومستعملة مفحوصة، بفيشة تقنية واضحة وأسعار معروضة.",
+                "primaryCtaText": "قم بزيارتنا",
+                "secondaryCtaText": "تصفح منتجاتنا"
+            },
+        
+        "carousel": {
+
+              "statusText": "اكتشف خدماتنا • الواجهة {current} / {total}",
+                "slides": [
+                  {
+                    "modelBadge": "قوموا بزيارتنا"
+                  },
+                  {
+                    "modelBadge": "أجهزة ذات آداء متفوق"
+                  },
+                  {
+                    "modelBadge": "تصليح و تطوير قطع الغيار"
+                  },
+                  {
+                    "modelBadge": "اجهزة مستعملة مفحوصة و مع الضمان"
+                  }
+                ]
+        }
+          
     },
     "socials": {
         "title": "تواصل معنا"

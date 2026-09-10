@@ -1,107 +1,121 @@
 {
     "Accueil": "Accueil",
-    "Produits": "Nos Produits",
+    "Produits": "Produits",
     "En stock": "En stock",
     "Hors stock": "Rupture de stock",
     "dzd": "DZD",
     "home": {
-        "title": "Accueil",
-        "description": "PC PLAZA à Tizi Ouzou : vente d'ordinateurs portables neufs et d'occasion, pro et gaming. Fiche technique complète, prix clairs en DZD et livraison vers 58 wilayas ! Appelez le (0792415956) ou visitez-nous à Amyoud !",
-        "discover_more": "Découvrir plus...",
-        "loading_products": "Chargement des produits..."
+        "title": "Accueil | PC PLAZA Tizi Ouzou",
+        "description": "PC PLAZA à Tizi Ouzou : PC portables neufs et reconditionnés certifiés, gammes pro et gaming. Fiches techniques complètes, prix transparents en DZD et livraison sécurisée sur les 58 wilayas ! Contactez le 0792415956 ou passez au showroom à Ameyoud.",
+        "discover_more": "En savoir plus",
+        "loading_products": "Chargement des configurations..."
     },
     "products": {
-        "title": "Produits",
-        "description": "Large choix de matériel informatique à Sidi Bel Abbès : ordinateurs, composants, périphériques et plus ! Trouvez la solution idéale pour vos besoins. Conseils personnalisés et prix compétitifs !",
-        "heading":"Nos Produits :",
-        "tags":{
-            "tout":"Tout",
-            "ordinateur de bureau": "ordinateur de bureau",
-            "ordinateur portable": "ordinateur portable",
-            "gaming": "gaming",
-            "audio": "audio",
-            "souris": "souris",
-            "clavier": "clavier",
-            "câbles": "câbles",
-            "accessoires": "accessoires",
-            "écrans": "écrans",
-            "réseau": "réseau",
-            "Réseau": "réseau",
-            "stockage": "stockage",
-            "ventilo": "ventilo",
-            "Carte Graphique": "Carte Graphique",
-            "alimentation": "alimentation",
-            "RAM": "RAM",
-            "processeur": "processeur"
+        "title": "Catalogue Matériel",
+        "description": "Une sélection pointue d'équipements informatiques : PC portables, composants haute performance, écrans et périphériques. Trouvez la configuration taillée pour vos besoins au juste prix.",
+        "heading": "Nos configurations & composants :",
+        "tags": {
+            "tout": "Tout afficher",
+            "ordinateur de bureau": "PC Fixes & Setups",
+            "ordinateur portable": "PC Portables",
+            "gaming": "Matériel Gaming",
+            "audio": "Audio & Casques",
+            "souris": "Souris",
+            "clavier": "Claviers",
+            "câbles": "Câbles & Connectique",
+            "accessoires": "Accessoires",
+            "écrans": "Écrans",
+            "réseau": "Réseaux & Wi-Fi",
+            "Réseau": "Réseaux & Wi-Fi",
+            "stockage": "Stockage & SSD",
+            "ventilo": "Refroidissement & Fans",
+            "Carte Graphique": "Cartes Graphiques",
+            "alimentation": "Alimentations",
+            "RAM": "Mémoire RAM",
+            "processeur": "Processeurs"
         },
-        "learn_more":"Découvrir"
-
+        "learn_more": "Voir le détail"
     },
     "error404": {
-        "title": "404 Page non trouvée",
-        "description": "Désolé ! Cette page n'existe pas. Vérifiez l'adresse ou utilisez la recherche. Retournez à l'accueil pour continuer votre navigation.",
-        "heading": "Page non trouvée",
-        "message": "Oups ! Il semble que la page que vous cherchez a disparu dans l'espace numérique.",
+        "title": "404 - Page introuvable",
+        "description": "Oups ! La page demandée n'existe pas ou a été déplacée. Vérifiez l'URL ou revenez à l'accueil pour poursuivre votre navigation.",
+        "heading": "Page introuvable",
+        "message": "Erreur 404 : il semble que cette page se soit volatilisée dans le cyberespace.",
         "back_to_home": "Retour à l'accueil",
         "previous_page": "Page précédente"
     },
     "cta": {
-        "title_part1": "Choisissez votre appareil aujourd'hui",
+        "title_part1": "Passez au niveau supérieur",
         "title_part2": "avec PC PLAZA",
-        "description": "Appareil garanti, fiche technique claire, et livraison vers 58 wilayas. Contactez-nous maintenant et obtenez la meilleure offre.",
-        "button_text": "Contactez-nous maintenant"
+        "description": "Matériel sous garantie, benchmarks réels en boutique et expédition express vers les 58 wilayas. Échangez directement avec nous pour trouver votre setup idéal.",
+        "button_text": "Discuter avec un conseiller"
     },
     "faq": {
-        "topper": "Tout ce que vous devez savoir",
-        "title": "Questions fréquentes de nos clients",
-        "q1": "Quels types d'appareils proposez-vous chez PC PLAZA ?",
-        "a1": "Nous proposons une large gamme d'ordinateurs portables à Tizi Ouzou : des appareils pro pour professionnels comme ThinkPad, Dell Precision et Latitude, des ordinateurs gaming avec carte graphique RTX pour les passionnés de jeux, ainsi que des appareils d'occasion vérifiés comme MacBook Air et Surface à des prix adaptés aux étudiants.",
-        "q2": "Les appareils d'occasion sont-ils garantis et fiables ?",
-        "a2": "Oui, chaque appareil d'occasion chez PC PLAZA passe par un contrôle complet de l'écran et de la batterie, et nous filmons le test réel de l'appareil en magasin avant de le proposer, pour que vous puissiez acheter en toute confiance sans surprises.",
-        "q3": "Comment puis-je connaître le prix et les spécifications techniques ?",
-        "a3": "Nous affichons pour chaque appareil une fiche technique complète en français et en arabe incluant le processeur, la RAM, le stockage et l'écran, avec le prix en dinars algériens clairement indiqué dès le départ, sans surprises ni prix cachés.",
-        "q4": "Comment puis-je vous contacter et où se trouve votre magasin ?",
-        "a4_part1": "Vous pouvez nous contacter par téléphone au ",
-        "a4_part2": ", ou via Instagram au ",
-        "a4_part3": ", ou visiter notre magasin à Amyoud, Tizi Ouzou sur ",
-        "q5": "La livraison est-elle disponible en dehors de Tizi Ouzou ?",
-        "a5": "Oui, nous assurons la livraison vers les 58 wilayas d'Algérie. Vous pouvez également retirer votre commande directement à notre magasin à Amyoud, Tizi Ouzou."
+        "topper": "Foire Aux Questions",
+        "title": "Tout ce que vous devez savoir",
+        "q1": "Quels types de machines proposez-vous chez PC PLAZA ?",
+        "a1": "Nous proposons une large sélection de PC portables à Tizi Ouzou : des gammes pro réputées pour leur fiabilité (ThinkPad, Dell Precision, Latitude), des bêtes de course gaming propulsées par les GPU RTX récents, ainsi que des ultrabooks reconditionnés de premier choix (MacBook Air, Surface) parfaits pour les étudiants et créatifs.",
+        "q2": "Les PC portables d'occasion sont-ils fiables et garantis ?",
+        "a2": "Absolument. Chez PC PLAZA, chaque machine reconditionnée passe par un protocole de test complet : santé batterie, intégrité de la dalle, stabilité thermique sous charge. Nous filmons même les tests en direct au showroom avant achat : zéro surprise, transparence totale.",
+        "q3": "Comment sont indiqués les prix et les fiches techniques ?",
+        "a3": "Chaque modèle dispose d'une fiche technique détaillée (CPU, RAM, SSD, écran). Nos tarifs sont affichés clairement en Dinars Algériens (DZD) dès le départ, sans frais cachés ni mauvaises surprises.",
+        "q4": "Comment nous contacter et où trouver le magasin ?",
+        "a4_part1": "Par téléphone direct au ",
+        "a4_part2": ", sur notre compte Instagram ",
+        "a4_part3": ", ou en venant directement tester le matériel à notre boutique située à Ameyoud, Tizi Ouzou : ",
+        "q5": "Livrez-vous en dehors de Tizi Ouzou ?",
+        "a5": "Oui, nous expédions avec soin et suivi sur l'ensemble des 58 wilayas d'Algérie. Vous pouvez également récupérer votre commande en main propre directement au magasin à Ameyoud."
     },
     "footer": {
         "information": "Informations",
-        "services": "Services",
-        "system_optimization": "Conseil matériel",
-        "it_consultation": "Conseils d'achat",
-        "hardware_sales": "Vente de matériel",
-        "pc_repair": "Occasions vérifiées",
-        "contact": "Contactez-nous",
-        "phone_prefix": "Téléphone :",
-        "click_to_email": "Contactez-nous",
-        "copyright": "© {year} - PC PLAZA Tizi Ouzou. Tous droits réservés.",
-        "website_by": "Site web par",
+        "services": "Nos Engagements",
+        "system_optimization": "Conseil Hardware",
+        "it_consultation": "Guide d'Achat",
+        "hardware_sales": "Vente de Matériel",
+        "pc_repair": "Reconditionné Garanti",
+        "contact": "Contact",
+        "phone_prefix": "Tél. :",
+        "click_to_email": "E-mail :",
+        "copyright": "© PC PLAZA Tizi Ouzou. Tous droits réservés.",
+        "website_by": "Conçu par",
         "manager": "(Gérant)",
         "whatsapp": "WhatsApp",
         "call": "Appeler",
-        "email": "Email"
+        "email": "Nous écrire"
     },
     "header": {
-        "visit_us": "Visitez-nous",
-        "need_help": "Besoin d'aide ?"
+        "visit_us": "Notre Showroom",
+        "need_help": "Besoin d'un conseil ?"
     },
     "hero": {
-        "title": "Choisissez votre appareil, nous garantissons la qualité",
-        "description": "PC PLAZA — Votre référence de confiance en informatique à Tizi Ouzou",
-        "cta": "Voir les produits",
-        "service1_title": "Ordinateurs Pro",
-        "service2_title": "Ordinateurs Gaming",
-        "service3_title": "Vente de matériel",
-        "service4_title": "Occasions vérifiées",
-        "service1_description": "ThinkPad, Precision et Latitude pour professionnels et étudiants.",
-        "service2_description": "Ordinateurs avec carte graphique RTX pour des performances de jeu exceptionnelles.",
-        "service3_description": "Ordinateurs neufs avec fiche technique complète FR/AR.",
-        "service4_description": "Contrôle complet de l'écran et de la batterie avant la vente."
+        "content": {
+            "kickerText": "TIZI OUZOU // EXPERTISE HARDWARE",
+            "kickerBadge": "",
+            "headlinePrimary": "VOTRE RÉFÉRENCE INFORMATIQUE",
+            "headlineStroke": "PC PLAZA",
+            "description": "Laptops gaming de pointe et stations de travail pros. Machines neuves et reconditionnées avec fiches techniques transparentes et tarifs garantis.",
+            "primaryCtaText": "Visiter la boutique",
+            "secondaryCtaText": "Explorer le stock"
+        },
+        "carousel": {
+            "statusText": "CONFIGURATIONS DISPONIBLES •  {current} SUR {total}",
+            "slides": [
+                {
+                    "modelBadge": "VISITEZ LE SHOWROOM"
+                },
+                {
+                    "modelBadge": "PERFORMANCES SANS COMPROMIS"
+                },
+                {
+                    "modelBadge": "UPGRADE & MAINTENANCE PRO"
+                },
+                {
+                    "modelBadge": "RECONDITIONNÉ CERTIFIÉ & GARANTI"
+                }
+            ]
+        }
     },
     "socials": {
-        "title": "Contactez-nous"
+        "title": "Rejoignez la communauté"
     }
 }
