@@ -85,24 +85,6 @@ const { description, title, preloadedImage } = Astro.props;
             <!-- Sitewide Scripts -->
            <script src="@js/nav.js"></script>
 
-           <!-- meta pixel -->
-           <!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1376904244235037');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1376904244235037&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
         </head>
         <body>
             <!--Screen reader skip main nav-->
@@ -115,13 +97,11 @@ src="https://www.facebook.com/tr?id=1376904244235037&ev=PageView&noscript=1"
             <Footer />
 
 
-            <!-- 100% privacy-first analytics -->
-            <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
-            <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif?collect-dnt=true" alt="" referrerpolicy="no-referrer-when-downgrade"/></noscript>
+
         </body>
 
 </html>
-
+<!-- shoelace and dark mode -->
 <script >
     // setBasePath to tell Shoelace where to load icons from.
     import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path.js';
@@ -171,6 +151,7 @@ src="https://www.facebook.com/tr?id=1376904244235037&ev=PageView&noscript=1"
 
     
   </script>
+<!-- remove netlify badge -->
 <script is:inline >
   function removeNetlifyBadge() {
     const badge = document.getElementById("nl-badge-frame");
