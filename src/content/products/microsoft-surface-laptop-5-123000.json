@@ -1,0 +1,22 @@
+{
+  "instructions": "**Légende des champs:**\n- ✅ indique un champ obligatoire\n- ❓ indique un champ optionnel\n- 🔹 indique que vous pouvez ajouter plusieurs éléments",
+  "in_stock": "true",
+  "name": "Microsoft Surface Laptop 5",
+  "description": "➤ Processeur: 12th Gen Intel(R) Core(TM) i7-1265U 2.70 GHz (10 cœurs) 12.0 Mo de cache\n\n➤ Ram: 16 Go DDR5 5200 MT/s\n\n➤ Disque dur: 512 SSD Nvme\n\n➤ Carte graphique: Intel(R) Iris(R) Xe Graphics\n\n➤ Écran: 14 pouces Full HD IPS\n\n➤ Clavier lumineux",
+  "price": 123000,
+  "image": "../../assets/images/products/5873158209105760194.jpg",
+  "images": [
+    {
+      "image": "../../assets/images/products/5873158209105760187.jpg"
+    },
+    {
+      "image": "../../assets/images/products/5873158209105760190.jpg"
+    },
+    {
+      "image": "../../assets/images/products/5873158209105760192.jpg"
+    }
+  ],
+  "tags": [
+    "ordinateur portable"
+  ]
+}
