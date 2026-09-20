@@ -1,0 +1,25 @@
+{
+  "instructions": "**Légende des champs:**\n- ✅ indique un champ obligatoire\n- ❓ indique un champ optionnel\n- 🔹 indique que vous pouvez ajouter plusieurs éléments",
+  "in_stock": "true",
+  "description": "\n\n➤ Processeur: Appel M1 8 cœurs (4 performances et 4 d'efficacité)\n\n➤ Ram: 16 GO LPDDR4 4266MT/s\n\n➤ Disque dur: 256 Go SSD\n\n➤ Carte graphique: Appel M1 (7 cœurs)\n\n➤ Écran: 13.3 pouces Retina (2560*1600)\n\n➤ Cycle: 355\n\n➤ Batterie: 87%\n\n➤ Touch ID\n\n",
+  "name": "MacBook Air M1 2020",
+  "price": 115000,
+  "image": "../../assets/images/products/5873158209105760211.jpg",
+  "images": [
+    {
+      "image": "../../assets/images/products/5873158209105760212.jpg"
+    },
+    {
+      "image": "../../assets/images/products/5873158209105760210.jpg"
+    },
+    {
+      "image": "../../assets/images/products/5873158209105760214.jpg"
+    },
+    {
+      "image": "../../assets/images/products/5873158209105760213.jpg"
+    }
+  ],
+  "tags": [
+    "ordinateur portable"
+  ]
+}
