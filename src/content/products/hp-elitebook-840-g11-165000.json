@@ -1,0 +1,22 @@
+{
+  "instructions": "**Légende des champs:**\n- ✅ indique un champ obligatoire\n- ❓ indique un champ optionnel\n- 🔹 indique que vous pouvez ajouter plusieurs éléments",
+  "in_stock": "true",
+  "name": "HP EliteBook 840 G11",
+  "description": "\n\n\nProcesseur: Intel(R) Core(TM) Ultra 155H 1.40 GHz (16 cœurs) 24.0 Mo de cache\n\nRam: 16 Go DDR5 5600 MT/s\n\nDisque dur: 512 Go SSD Nvme\n\nNPU: Intel(R) AI Boost\n\nCarte graphique: Intel(R) Graphics\n\nÉcran: 14 pouces (1920*1200) IPS\n\nClavier lumineux\n\nEmpreinte digitale\n\nReconnaissance faciale\n\n",
+  "price": 165000,
+  "image": "../../assets/images/products/5873158209105760140-1-.jpg",
+  "images": [
+    {
+      "image": "../../assets/images/products/5873158209105760139.jpg"
+    },
+    {
+      "image": "../../assets/images/products/5873158209105760137.jpg"
+    },
+    {
+      "image": "../../assets/images/products/5873158209105760142.jpg"
+    }
+  ],
+  "tags": [
+    "ordinateur portable"
+  ]
+}
