@@ -17,13 +17,13 @@
         }
         ]">
         
-
         
 
         <ProductCard v-for="product in displayedProduct"
             :key="product.id"
             :product="product"
             :product-images="productImages[product.id]"
+            :lang="lang"
         />
 
 
@@ -48,9 +48,14 @@
         productImages:{
             type:Object
         },
+        // Language passed from Astro (SSR can't read document.documentElement).
+        lang:{
+            type:String,
+            default:"ar"
+        },
 
     })
-    const {t} = useT()
+    const {t} = useT("",props.lang)
 
     const title = t("products.heading")
 
@@ -68,30 +73,50 @@
         return filtered
     })
 
+    const isBrowser = typeof window !== "undefined"
+    const initialCount = computed(()=>{
+        const products = toValue(filteredProducts) ?? []
+        if (props.isSection == false) return products.length
+        // SSR/prerender default: desktop count. Corrected on mount if needed.
+        return Math.min(products.length, 12)
+    })
+
+    // On the server there is no viewport; render the desktop slice and adjust
+    // after hydration so SEO-visible markup always contains products.
+    const visibleCount = ref(isBrowser ? 0 : -1) // -1 = use initialCount
+
     const displayedProduct = computed(()=>{
-        // if not a section then display ALL products
         const products = toValue(filteredProducts) ?? []
 
         if (props.isSection == false) return products
 
+        // After hydration: measure the real viewport (never during SSR).
+        if (isBrowser && visibleCount.value !== -1) {
+            return products.slice(0, visibleCount.value)
+        }
+
+        // Before hydration (static HTML): desktop slice.
+        return products.slice(0, initialCount.value)
+    })
+
+    onMounted(()=>{
+        if (props.isSection !== true) return
         const breakPoint1 = 550
         const breakPoint2 = 800
         const screenWidth = window.innerWidth
 
-
         // less than 550px
         if (screenWidth <= breakPoint1) {
-            return products.slice(0, 6);
+            visibleCount.value = 6
         }
         // less than 800px
         else if(screenWidth <= breakPoint2){
             // display the first r on pc
-            return products.slice(0, 8);
+            visibleCount.value = 8
         }
         // more than 800px
         else{
-            return products.slice(0, 12);
-
+            visibleCount.value = 12
         }
     })
 

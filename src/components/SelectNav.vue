@@ -24,15 +24,21 @@
 import {ref} from "vue"
 import useT from "@js/useT"
 
-const {t} = useT("products.tags")
 const emit = defineEmits(["select"])
 const props = defineProps({
     items:Array,
     selectAllLabel:{
         type:String,
         default:"All"
+    },
+    // Language passed from Astro (SSR can't read document.documentElement).
+    lang:{
+        type:String,
+        default:"ar"
     }
 })
+
+const {t} = useT("products.tags", props.lang)
 
 const selectedItem = ref("")
 function selectItem(item) {

@@ -7,7 +7,7 @@ import { getCollection } from "astro:content";
 import {getOptimizedImage,getOptimizedCardImage} from "@js/utils"
 import landingImage from "@assets/images/hero.webp" // <-- THE PATH TO THE ASSET YOU WANT TO PRELOAD - The asset must live in src
 import ProductComponent from "@components/Products.vue";
-import { getLocalePath, t } from "i18n:astro";
+import { getLocalePath, getLocale, t } from "i18n:astro";
 
 const optimizedImage = await getOptimizedImage(landingImage)
 
@@ -91,7 +91,8 @@ const loadingProductsText = t("home.loading_products");
 <!-- products -->
 {dataIsReady ? (
   <ProductComponent 
-    client:only="vue" 
+    client:visible 
+    lang={getLocale()} 
     products={products} 
     productImages={productsProcessedImages} 
     isSection={false} 

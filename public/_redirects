@@ -1,1 +1,13 @@
+# 301 redirects — see https://docs.netlify.com/routing/redirects/
 
+# Old capitalized route (was src/routes/Produits.astro) → lowercase /produits/
+/Produits/       /produits/      301!
+/Produits        /produits/      301!
+
+# Legacy hosts from before the store rename → new canonical domain
+https://infopc.netlify.app/*     https://www.pcplaza-15.com/:splat     301!
+https://www.infopc-sba.com/*     https://www.pcplaza-15.com/:splat     301!
+https://infopc-sba.com/*         https://www.pcplaza-15.com/:splat     301!
+https://pc-plaza15.com/*         https://www.pcplaza-15.com/:splat     301!
+https://www.pc-plaza15.com/*     https://www.pcplaza-15.com/:splat     301!
+https://pcplaza-15.com/*         https://www.pcplaza-15.com/:splat     301!

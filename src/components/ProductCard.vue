@@ -165,13 +165,18 @@ const props = defineProps({
   slider: {
     type: Boolean,
     required: false
+  },
+  // Language passed from Astro (SSR can't read document.documentElement).
+  lang: {
+    type: String,
+    default: "ar"
   }
 });
 
 /* ==========================================================================
    Reactive State
    ========================================================================== */
-const { t } = useT();
+const { t } = useT("", props.lang);
 
 const modalVisible = ref(false);
 const isLoading = ref(!props.productImages?.image?.src);
@@ -236,12 +241,15 @@ function handleImageUpdate(optimizedImages) {
   } else {
     isLoading.value = true;
     isFallbackImage.value = true;
-    setTimeout(() => {
-      if (isLoading.value) {
-        mainImageSrc.value = fallbackImageSrc;
-        isLoading.value = false;
-      }
-    }, 3000);
+    // setTimeout is a browser-only side effect; never schedule it during SSR.
+    if (typeof window !== "undefined") {
+      setTimeout(() => {
+        if (isLoading.value) {
+          mainImageSrc.value = fallbackImageSrc;
+          isLoading.value = false;
+        }
+      }, 3000);
+    }
   }
   updateCarouselImages(optimizedImages);
 }

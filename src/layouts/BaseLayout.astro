@@ -19,6 +19,10 @@ import "@shoelace-style/shoelace/dist/themes/light.css";
 
 
 const { description, title, preloadedImage } = Astro.props;
+
+// Absolute social-share image URL, derived from the client.json domain so it
+// always points at the live site (scrapers cannot resolve relative paths).
+const ogImage = `https://${client.domain}/assets/images/products/placeholder/logo.png`;
  
 
 ---
@@ -50,8 +54,8 @@ const { description, title, preloadedImage } = Astro.props;
             <meta property="og:description" content={description} />
             <meta property="og:type" content="website" />
             <meta property="og:url" content={`https://${client.domain}${Astro.url.pathname}`} />
-            <meta property="og:image" content="assets/images/products/placeholder/logo.png" />
-            <meta property="og:image:secure_url" content="assets/images/products/placeholder/logo.png" />
+            <meta property="og:image" content={ogImage} />
+            <meta property="og:image:secure_url" content={ogImage} />
     
             <!--Favicons-->
             <link rel="icon" href="/assets/favicons/favicon.ico" sizes="any">
