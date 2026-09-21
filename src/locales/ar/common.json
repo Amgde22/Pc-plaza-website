@@ -120,5 +120,8 @@
     },
     "socials": {
         "title": "تواصل معنا"
+    },
+    "accessibility": {
+        "skip_to_content": "تخطَّ إلى المحتوى الرئيسي"
     }
 }

@@ -32,9 +32,7 @@ export default defineConfig({
           fr: 'fr',
         },
       },
-      filter: (page) => !page.includes("/admin"),
-      changefreq: "weekly",
-      priority: 0.7,
+      filter: (page) => !page.includes("/admin") && !page.includes("/404"),
     }),
     {
       name: "generate-robots-txt",
