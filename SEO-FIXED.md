@@ -20,11 +20,25 @@ Rule: anything marked ✅ is verified in the built HTML, not just in source.
 
 5. **Render-blocking Google Fonts `@import`** (Wallpoet) — slowed CSS, broke offline builds. Removed; only user was dead CSS `.font-logo` in utils.less. Fonts are self-hosted (Mada/Roboto).
 
+6. **Hreflang mismatch: head vs sitemap** — head emitted `ar`/`fr`, sitemap emitted `ar-DZ`/`fr-FR` (Google requires both to agree), and there was no `x-default`.
+   → Sitemap locales changed to `ar`/`fr` in `astro.config.mjs`; `x-default` link added in `BaseLayout.astro` pointing to the default-locale (ar) version of each page via `getSwitcherData()`.
+
+7. **Titles** — home AR title was generic ("الصفحة الرئيسية"), FR home duplicated the brand (`Accueil | PC PLAZA Tizi Ouzou | PC plaza 15`), and the home title ended with a dangling comma from the empty `state` field.
+   → Keyword-rich home titles in both locales (`home.title` in common.json, e.g. "أجهزة كمبيوتر محمولة جديدة ومستعملة في تيزي وزو"); title logic in BaseLayout: home pages use the locale title as-is, other pages get `Page | Brand`. Empty `state`/`zip` no longer leak into titles.
+
+8. **Brand casing inconsistent** ("PC plaza 15" vs "PC PLAZA") → `client.json` `name` is now "PC PLAZA 15" everywhere.
+
+9. **No structured data (0 ld+json)** → Added, all derived from `client.json` (new-store-safe):
+   - `ComputerStore` (LocalBusiness): name, address (Tizi Ouzou), geo phone, opening hours, `sameAs` (Instagram/Facebook), priceRange — in `BaseLayout.astro`, sitewide.
+   - `FAQPage`: 5 Q&As mirrored from the locale strings used by the visible FAQ — on home.
+   - `Product` + `Offer`: name, description, image, price in DZD, InStock/OutOfStock — one per SSR'd product, on home. (Move to product detail pages when they exist.)
+
+10. **Social metadata incomplete** → Added `og:site_name`, `og:locale` (+ `og:locale:alternate` per language), and full Twitter card tags (`summary_large_image`) in `BaseLayout.astro`.
+
+11. **Wrong city in Arabic products description** — said سيدي بلعباس (Sidi Bel Abbès), a leftover from the template's original store. → Fixed to تيزي وزو (Tizi Ouzou) in `src/locales/ar/common.json`.
+
 ## 🔲 Pending (priority order)
 
-- **Wrong city in Arabic copy** — `src/locales/ar/common.json` → `products.description` says سيدي بلعباس (Sidi Bel Abbès); store is in Tizi Ouzou.
-- **Titles** — home AR title is generic ("الصفحة الرئيسية"), FR title duplicates brand, trailing comma in home title (empty `state` in client.json).
-- **No structured data** — add JSON-LD: `ComputerStore` (local business), `FAQPage`, then `Product`/`Offer` once product detail pages exist.
 - **Missing alt text** — hero carousel images have empty `alt`; write descriptive alts.
 - **No H1 on /produits?** — fixed by #3 (Vue `h1.title` is now SSR'd); 404 still has two H1s.
 - **Heavy product images** — cards load 500–870 KB JPEGs; convert to WebP/AVIF.
@@ -37,4 +51,7 @@ Rule: anything marked ✅ is verified in the built HTML, not just in source.
 - **Adding a page:** lowercase filename in `src/routes/` — the filename IS the URL. Update `src/data/navData.json` to match.
 - **Never use `client:only`** on components that render text content — make the component SSR-safe instead (`typeof window !== "undefined"` guards; no `document` in module/setup scope; pass locale via props, never read it from the DOM).
 - **Verify SEO changes against the build**, not dev mode: `npm run build`, then inspect `dist/`.
+- **Structured data flows from client.json** — when adding a store field (e.g. geo coordinates), surface it in the `ComputerStore` JSON-LD in `BaseLayout.astro` too.
+- **hreflang must agree everywhere** — page `<head>` (I18nHead + x-default) and sitemap locales in `astro.config.mjs` must emit the same values; if you change one, change both.
+- **Home titles are keywords, page titles are labels** — `home.title` in both common.json files carries the keyword-rich SERP title (brand + city included); do not append the brand again for home routes (BaseLayout already handles this).
 - **Netlify redirects** live in `public/_redirects` — add any domain/route renames there so old URLs don't die.

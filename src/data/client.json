@@ -1,10 +1,11 @@
 {
-	"name": "PC plaza 15",
+	"name": "PC PLAZA 15",
 	"email": "ahmed.achaibous@gmail.com",
 	"whatsappLink":"https://wa.me/213792415956",
 
 	"phoneForTel": "0792415956",
 	"phoneFormatted": "0792415956",
+	"phoneInternational": "+213792415956",
 
 	"address": {
 		"lineOne": "M3X2+38P AMYOUD",
@@ -14,5 +15,14 @@
 		"zip": "",
 		"mapLink": "https://maps.app.goo.gl/1uSaSxxQydBZgg71A"
 	},
+
+	"socials": {
+		"instagram": "https://www.instagram.com/pc_plaza15/",
+		"facebook": "https://www.facebook.com/pcplaza15/"
+	},
+
+	"openingHours": ["Mo-Sa 09:00-19:00"],
+	"priceRange": "$$",
+
 	"domain": "www.pcplaza-15.com"
 }

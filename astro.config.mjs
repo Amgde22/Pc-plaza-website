@@ -26,8 +26,10 @@ export default defineConfig({
       i18n: {
         defaultLocale: 'ar',
         locales: {
-          ar: 'ar-DZ',
-          fr: 'fr-FR',
+          // Must match the hreflang values emitted by I18nHead in the page <head>
+          // (plain locale codes, no region subtag) — Google requires them to agree.
+          ar: 'ar',
+          fr: 'fr',
         },
       },
       filter: (page) => !page.includes("/admin"),

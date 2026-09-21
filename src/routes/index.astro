@@ -78,6 +78,51 @@ const pageDescription = t("home.description");
 const discoverMoreText = t("home.discover_more");
 const loadingProductsText = t("home.loading_products");
 
+// FAQPage structured data — built from the same locale strings the visible FAQ renders
+const faq = t("faq", { returnObjects: true });
+const client = (await import("@data/client.json")).default;
+const phoneLink = `<a href="tel:${client.phoneForTel}">${client.phoneFormatted}</a>`;
+const emailLink = `<a href="mailto:${client.email}">${client.email}</a>`;
+const mapsLink = `<a href="https://maps.app.goo.gl/1uSaSxxQydBZgg71A">Google Maps</a>`;
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [faq.q1, faq.q2, faq.q3, faq.q4, faq.q5].map((q, i) => {
+    let answer = faq[`a${i + 1}`] ?? "";
+    if (i === 3) {
+      // q4's answer contains inline tel/email/maps links — reproduce them so the
+      // schema matches the visible content
+      answer = `${faq.a4_part1}${phoneLink}${faq.a4_part2}${emailLink}${faq.a4_part3}${mapsLink}`;
+    }
+    return {
+      "@type": "Question",
+      "name": q,
+      "acceptedAnswer": { "@type": "Answer", "text": answer },
+    };
+  }),
+};
+
+// Product + Offer structured data for the homepage product grid (prices in DZD)
+const baseUrl = `https://${client.domain}`;
+const productJsonLd = products.map(({ id, data }) => ({
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": data.name,
+  "description": data.description,
+  "image": `${baseUrl}${productsProcessedImages[id]?.image?.src ?? ""}`,
+  "brand": { "@type": "Brand", "name": client.name },
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "DZD",
+    "price": data.price,
+    "availability": data.in_stock
+      ? "https://schema.org/InStock"
+      : "https://schema.org/OutOfStock",
+    "url": `${baseUrl}${getLocalePath("/produits")}`,
+    "seller": { "@type": "Organization", "name": client.name },
+  },
+}));
+
 
 ---
 
@@ -125,12 +170,12 @@ const loadingProductsText = t("home.loading_products");
 </div>
 
  
-  <!-- ============================================ -->
-  <!--                    FAQ                       -->
-  <!-- ============================================ -->
+  <!-- FAQ -->
   <FAQ />
 
-
+  <!--Structured data-->
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+  <script type="application/ld+json" set:html={JSON.stringify(productJsonLd)} />
 
 </BaseLayout>
 
