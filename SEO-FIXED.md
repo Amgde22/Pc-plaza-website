@@ -37,13 +37,23 @@ Rule: anything marked ✅ is verified in the built HTML, not just in source.
 
 11. **Wrong city in Arabic products description** — said سيدي بلعباس (Sidi Bel Abbès), a leftover from the template's original store. → Fixed to تيزي وزو (Tizi Ouzou) in `src/locales/ar/common.json`.
 
+12. **404 page leaked SEO signals** — it was canonicalized, hreflang'd, and had LocalBusiness JSON-LD (all pointless on an error page), and was indexable.
+   → `BaseLayout.astro` now skips canonical/I18nHead/x-default/JSON-LD on 404 and emits `<meta name="robots" content="noindex, follow">`; 404 removed from the sitemap filter as well.
+
+13. **Skip-link hardcoded in English** on an AR/RTL site → new `accessibility.skip_to_content` key in both locale files; `BaseLayout.astro` renders it via `t()` (تخطَّ إلى المحتوى الرئيسي / Aller au contenu principal).
+
+14. **Sitemap noise** — `changefreq`/`priority` are ignored by Google → removed from the sitemap config; sitemap now lists only real pages (4 URLs, no 404).
+
+15. **Netlify-badge MutationObserver script ran on every page** → deleted (~1 KB of JS per page). Replaced by a CSS `display:none` rule for `#nl-badge-frame` in `root.less`, which also can't be defeated by async re-injection.
+
 ## 🔲 Pending (priority order)
 
 - **Missing alt text** — hero carousel images have empty `alt`; write descriptive alts.
 - **No H1 on /produits?** — fixed by #3 (Vue `h1.title` is now SSR'd); 404 still has two H1s.
 - **Heavy product images** — cards load 500–870 KB JPEGs; convert to WebP/AVIF.
-- **Hygiene** — empty `<meta name="keywords">`, obsolete `X-UA-Compatible`, stale `theme-color`, skip-link hardcoded in English.
-- **Off-page (not in repo)** — Netlify: set `www.pcplaza-15.com` as **primary** domain (else redirect loop); submit sitemap in Search Console; keep Google Business Profile NAP consistent with footer.
+- **Hygiene** — empty `<meta name="keywords">`, obsolete `X-UA-Compatible`, stale `theme-color`.
+- **JS payload** — home still ships ~222 KB JS / ~88 KB CSS (Vue island + Shoelace); next lever is trimming Shoelace components or lazy-loading the product dialogs.
+- **Off-page (not in repo, user action):** ① Netlify — set `www.pcplaza-15.com` as **primary** domain (else redirect loop). ② Submit the sitemap in Google Search Console. ③ **Google Business Profile** — make sure GBP links to `https://www.pcplaza-15.com` and that Name/Address/Phone match the footer and the `ComputerStore` schema exactly (PC PLAZA 15 / Ameyoud, Tizi Ouzou / +213 792 41 59 56) — NAP consistency is the biggest local-SEO multiplier for a physical store.
 
 ## Workflow changes
 

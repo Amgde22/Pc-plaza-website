@@ -11,7 +11,7 @@ import "@styles/scrollbar.less";
 
 import I18nClient from "@astrolicious/i18n/components/I18nClient.astro";
 import I18nHead from "@astrolicious/i18n/components/I18nHead.astro";
-import { getHtmlAttrs, getLocales, getSwitcherData, t } from "i18n:astro";
+import { getHtmlAttrs, getLocale, getLocales, getSwitcherData, t } from "i18n:astro";
 
 // shoelace style
 import "@shoelace-style/shoelace/dist/themes/light.css";
@@ -30,6 +30,12 @@ const isHome = ["/", "/fr", "/fr/"].includes(Astro.url.pathname);
 const fullTitle = isHome ? title : `${title} | ${client.name}`;
 const pageUrl = `https://${client.domain}${Astro.url.pathname}`;
 const isAr = Astro.url.pathname === "/" || Astro.url.pathname.startsWith("/fr") === false;
+
+// 404 (and any other non-indexable page): skip canonical/hreflang entirely
+const is404 = Astro.url.pathname.startsWith("/404");
+
+// Skip-link text in the visitor's language (was hardcoded English on an AR/RTL site)
+const skipLinkText = t("accessibility.skip_to_content");
 
 // x-default: the default-locale (ar) version of the current page — this is where
 // users whose language matches neither ar nor fr should land.
@@ -74,12 +80,12 @@ const storeJsonLd = {
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <meta name="description" content={description}>
             <meta name="keywords" content="">
-            <link rel="canonical" href={`https://${client.domain}${Astro.url.pathname}`}>
-
-		<I18nHead />
-            <!-- x-default: the default-locale (ar) version of the current page — this is
-                 where users whose language matches neither ar nor fr should land -->
-            <link rel="alternate" hreflang="x-default" href={xDefaultHref} />
+            <!-- 404 pages: skip canonical/hreflang/social (pointless on an error page) -->
+            {is404 ? null : (
+              <link rel="canonical" href={`https://${client.domain}${Astro.url.pathname}`}>
+              <I18nHead />
+              <link rel="alternate" hreflang="x-default" href={xDefaultHref} />
+            )}
 
             <!-- Preloads the image passed as a prop -->
             <link rel="preload" href={preloadedImage.src} as="image" />
@@ -101,8 +107,11 @@ const storeJsonLd = {
             <meta name="twitter:description" content={description} />
             <meta name="twitter:image" content={ogImage} />
 
+            <!-- 404: keep it out of indexes entirely -->
+            {is404 && <meta name="robots" content="noindex, follow" />}
+
             <!--Structured data: local business-->
-            <script type="application/ld+json" set:html={JSON.stringify(storeJsonLd)} />
+            {is404 ? null : <script type="application/ld+json" set:html={JSON.stringify(storeJsonLd)} />}
     
             <!--Favicons-->
             <link rel="icon" href="/assets/favicons/favicon.ico" sizes="any">
@@ -128,7 +137,7 @@ const storeJsonLd = {
         </head>
         <body>
             <!--Screen reader skip main nav-->
-            <a class="skip" aria-label="skip to main content" href="#main">Click To Skip To Main Content</a>
+            <a class="skip" aria-label={skipLinkText} href="#main">{skipLinkText}</a>
     
             <Header />
             <main id="main">
@@ -191,42 +200,7 @@ const storeJsonLd = {
 
     
   </script>
-<!-- remove netlify badge -->
-<script is:inline >
-  function removeNetlifyBadge() {
-    const badge = document.getElementById("nl-badge-frame");
-    if (!badge) return;
-
-    // fade it out first
-    badge.style.transition = "opacity 0.3s ease";
-    badge.style.opacity = "0";
-
-    // remove it from the DOM after the fade finishes
-    setTimeout(() => {
-      badge.remove();
-    }, 300);
-  }
-
-  if (document.readyState === "complete") {
-    removeNetlifyBadge();
-  } else {
-    window.addEventListener("load", removeNetlifyBadge);
-  }
-
-  // Netlify sometimes re-injects the badge asynchronously after initial load,
-  // so watch the DOM briefly in case it gets added later.
-  const observer = new MutationObserver(() => {
-    const badge = document.getElementById("nl-badge-frame");
-    if (badge && badge.style.opacity !== "0") {
-      removeNetlifyBadge();
-    }
-  });
-
-  observer.observe(document.body, { childList: true, subtree: true });
-
-  // stop observing after a few seconds so it doesn't run forever
-  setTimeout(() => observer.disconnect(), 8000);
-</script>
+<!-- Netlify badge removal: handled by CSS in root.less instead of a per-page MutationObserver script -->
 
 
 
