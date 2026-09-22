@@ -83,7 +83,7 @@ const faq = t("faq", { returnObjects: true });
 const client = (await import("@data/client.json")).default;
 const phoneLink = `<a href="tel:${client.phoneForTel}">${client.phoneFormatted}</a>`;
 const emailLink = `<a href="mailto:${client.email}">${client.email}</a>`;
-const mapsLink = `<a href="https://maps.app.goo.gl/1uSaSxxQydBZgg71A">Google Maps</a>`;
+const mapsLink = `<a href="${client.address.mapLink}">Google Maps</a>`;
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
