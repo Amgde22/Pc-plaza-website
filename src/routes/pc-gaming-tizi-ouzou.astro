@@ -1,0 +1,18 @@
+---
+import BaseLayout from "src/layouts/BaseLayout.astro";
+import ServicePage from "@components/ServicePage.astro";
+import { getOptimizedImage } from "@js/utils";
+import landingImage from "@assets/images/hero.webp";
+import { t } from "i18n:astro";
+
+const optimizedImage = await getOptimizedImage(landingImage);
+const service = t("services", { returnObjects: true }).gaming;
+---
+
+<BaseLayout
+  title={service.meta_title}
+  description={service.meta_description}
+  preloadedImage={optimizedImage}
+>
+  <ServicePage serviceKey="gaming" />
+</BaseLayout>

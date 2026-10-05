@@ -1,0 +1,279 @@
+---
+import { Icon } from "astro-icon/components";
+import { getLocale, t } from "i18n:astro";
+import client from "@data/client.json";
+
+const map = t("map", { returnObjects: true });
+const locale = getLocale();
+
+const { lineOne, lineTwo, city, mapQuery, geo } = client.address;
+
+// Keyless Google Maps embed pinned to the store's own profile (the "PC PLAZA"
+// knowledge panel in Tizi Ouzou). mapQuery + geo live in client.json so
+// re-pointing the store stays a one-file edit, and hl keeps the Google UI in
+// the visitor's language (ar/fr).
+const embedSrc =
+  `https://www.google.com/maps?q=${encodeURIComponent(mapQuery)}` +
+  `&ll=${geo.latitude},${geo.longitude}&z=17&hl=${locale}&output=embed`;
+
+// Turn-by-turn deep link to the exact store coordinates.
+const directionsHref = `https://www.google.com/maps/dir/?api=1&destination=${geo.latitude},${geo.longitude}`;
+---
+
+<section id="location-1741">
+  <div class="cs-container">
+    <div class="cs-content">
+      <span class="cs-topper">{map.topper}</span>
+      <h2 class="cs-title">{map.title}</h2>
+      <p class="cs-text">{map.description}</p>
+    </div>
+
+    <div class="cs-layout">
+      <div class="cs-map">
+        <iframe
+          src={embedSrc}
+          title={map.iframe_title}
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen
+        ></iframe>
+      </div>
+
+      <aside class="cs-card">
+        <ul class="cs-info">
+          <li class="cs-info-item">
+            <Icon name="mdi--location" size={25} class="cs-icon" />
+            <div class="cs-info-text">
+              <span class="cs-info-label">{map.address_label}</span>
+              <p>{lineOne}, {lineTwo}, {city}</p>
+            </div>
+          </li>
+          <li class="cs-info-item">
+            <svg
+              class="cs-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                fill="currentColor"
+                d="M6.54 5c.06.89.21 1.76.45 2.59l-1.2 1.2c-.41-1.2-.67-2.47-.76-3.79zm9.86 12.02c.85.24 1.72.39 2.6.45v1.49c-1.32-.09-2.59-.35-3.8-.75zM7.5 3H4c-.55 0-1 .45-1 1c0 9.39 7.61 17 17 17c.55 0 1-.45 1-1v-3.49c0-.55-.45-1-1-1c-1.24 0-2.45-.2-3.57-.57a.8.8 0 0 0-.31-.05c-.26 0-.51.1-.71.29l-2.2 2.2a15.15 15.15 0 0 1-6.59-6.59l2.2-2.2c.28-.28.36-.67.25-1.02A11.4 11.4 0 0 1 8.5 4c0-.55-.45-1-1-1"
+              ></path>
+            </svg>
+            <div class="cs-info-text">
+              <span class="cs-info-label">{map.phone_label}</span>
+              <a href={`tel:${client.phoneForTel}`}>{client.phoneFormatted}</a>
+            </div>
+          </li>
+        </ul>
+
+        <a
+          class="cs-button-solid cs-directions"
+          href={directionsHref}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {map.directions}
+        </a>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<style lang="less">
+  /* Mobile - 360px */
+  @media only screen and (min-width: 0rem) {
+    #location-1741 {
+      padding: var(--sectionPadding);
+      position: relative;
+
+      .cs-container {
+        width: 100%;
+        /* matches the FAQ container on desktop */
+        max-width: (1280/16rem);
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        /* 32px - 48px */
+        gap: clamp(2rem, 4vw, 3rem);
+      }
+
+      .cs-content {
+        text-align: center;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .cs-title {
+        max-width: 18ch;
+      }
+
+      .cs-text {
+        max-width: 60ch;
+        text-align: center;
+      }
+
+      .cs-layout {
+        display: flex;
+        flex-direction: column;
+        /* 16px - 24px */
+        gap: clamp(1rem, 2vw, 1.5rem);
+      }
+
+      .cs-map {
+        width: 100%;
+        border: 1px solid #e8e8e8;
+        border-radius: (16/16rem);
+        overflow: hidden;
+        box-shadow: var(--shadow-elevation-medium);
+        /* keeps the section stable while the iframe boots */
+        background-color: var(--secondaryLight);
+
+        iframe {
+          display: block;
+          width: 100%;
+          height: (340/16rem);
+          border: 0;
+        }
+      }
+
+      .cs-card {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: (20/16rem);
+        padding: (24/16rem);
+        background-color: #fff;
+        border: 1px solid #e8e8e8;
+        border-radius: (16/16rem);
+        box-shadow: var(--shadow-elevation-low);
+      }
+
+      .cs-info {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: (16/16rem);
+      }
+
+      .cs-info-item {
+        display: flex;
+        align-items: flex-start;
+        gap: (12/16rem);
+      }
+
+      .cs-icon {
+        flex: none;
+        color: var(--primary);
+        margin-top: (2/16rem);
+      }
+
+      .cs-info-text {
+        display: flex;
+        flex-direction: column;
+        gap: (4/16rem);
+
+        .cs-info-label {
+          font-size: (13/16rem);
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          color: var(--secondary);
+        }
+
+        p,
+        a {
+          font-size: (16/16rem);
+          line-height: 1.5em;
+          margin: 0;
+          color: var(--bodyTextColor);
+        }
+
+        a {
+          text-decoration: underline;
+
+          &:hover {
+            color: var(--primary);
+          }
+        }
+      }
+
+      .cs-directions {
+        align-self: flex-start;
+      }
+    }
+  }
+
+  /* Tablet - 768px */
+  @media only screen and (min-width: 48rem) {
+    #location-1741 {
+      .cs-map iframe {
+        height: (420/16rem);
+      }
+    }
+  }
+
+  /* Desktop - 1024px */
+  @media only screen and (min-width: 64rem) {
+    #location-1741 {
+      .cs-layout {
+        flex-direction: row;
+        align-items: stretch;
+      }
+
+      .cs-map {
+        /* map takes the room, card keeps a readable measure */
+        flex: 1 1 auto;
+
+        iframe {
+          height: (460/16rem);
+        }
+      }
+
+      .cs-card {
+        flex: 0 0 (340/16rem);
+        justify-content: center;
+      }
+    }
+  }
+
+  /* Dark Mode */
+  @media only screen and (min-width: 0rem) {
+    body.dark-mode {
+      #location-1741 {
+        .cs-topper {
+          color: var(--primaryLight);
+        }
+
+        .cs-title,
+        .cs-text {
+          color: var(--bodyTextColorWhite);
+        }
+
+        .cs-map {
+          border-color: var(--medium);
+        }
+
+        .cs-card {
+          background-color: var(--medium);
+          border-color: var(--secondaryLight);
+        }
+
+        .cs-info-item .cs-info-label {
+          color: var(--bodyTextColorWhite);
+        }
+
+        .cs-info-item p,
+        .cs-info-item a {
+          color: var(--bodyTextColorWhite);
+        }
+      }
+    }
+  }
+</style>

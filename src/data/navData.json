@@ -1,13 +1,34 @@
-[
-  {
-    "key": "Accueil",
-    "url": "/",
-    "children": []
-  },
+{
+  "links": [
+    {
+      "key": "Accueil",
+      "url": "/",
+      "children": []
+    },
 
-  {
-    "key": "Produits",
-    "url": "/produits/",
-    "children": []
+    {
+      "key": "Produits",
+      "url": "/produits/",
+      "children": []
+    },
+
+    {
+      "key": "Dépannage",
+      "url": "/reparation-ordinateur-tizi-ouzou/",
+      "children": []
+    }
+  ],
+
+  "// COMMENTED OUT — service pages not linked in the nav (only one of the three is linked, so the menu stays focused and crawl priority is not split). The two pages below are still live and indexed via the sitemap + cross-links on the service template. To enable one, move it into \"links\".": {
+    "PC Occasion": {
+      "key": "PC Occasion",
+      "url": "/pc-occasion-tizi-ouzou/",
+      "children": []
+    },
+    "PC Gaming": {
+      "key": "PC Gaming",
+      "url": "/pc-gaming-tizi-ouzou/",
+      "children": []
+    }
   }
-]
+}
