@@ -1,6 +1,6 @@
 ---
 import { getLocalePath, t } from "i18n:astro";
-import {email,phoneForTel,phoneFormatted} from "@data/client.json"
+import {email,phoneForTel,phoneFormatted,address} from "@data/client.json"
 const faq = t("faq",{ returnObjects: true });
 const faqTopper = faq.topper
 const faqTitle = faq.title
@@ -66,7 +66,7 @@ const faqA5 = faq.a5 ?? " yes"
             </span>
           </button>
           <p class="cs-item-text">
-            {faqA4Part1}<a href={"tel:"+phoneForTel}>{phoneFormatted}</a>{faqA4Part2}<a href={"mailto:"+email}>{email}</a>{faqA4Part3}<a href="https://maps.app.goo.gl/ytN9YsnY5BVM4jvq5">Google Maps</a>
+            {faqA4Part1}<a href={"tel:"+phoneForTel}>{phoneFormatted}</a>{faqA4Part2}<a href={"mailto:"+email}>{email}</a>{faqA4Part3}<a href={address.mapLink}>Google Maps</a>
           </p>
         </li>
         <li class="cs-faq-item">

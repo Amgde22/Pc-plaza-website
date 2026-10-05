@@ -1,13 +1,27 @@
-# 301 redirects — see https://docs.netlify.com/routing/redirects/
-
+# ============================================================================
+# PC PLAZA 15 — Netlify redirects
+# Canonical production domain: https://www.pcplaza-15.com
+# (single source of truth: src/data/client.json → "domain")
+# ============================================================================
+#
+# ⚠️ RULES — READ BEFORE EDITING:
+#
+# 1. DO NOT add apex↔www redirects here (e.g. pcplaza-15.com → www.pcplaza-15.com).
+#    Netlify's dashboard "primary domain" setting (Site configuration → Domains)
+#    already redirects every attached domain (apex, www, aliases) to the primary
+#    domain automatically. Duplicating it here causes an ERR_TOO_MANY_REDIRECTS
+#    loop (this actually happened and required Netlify support to fix).
+#
+# 2. DO NOT copy redirect rules from other projects/templates. Every host listed
+#    here must be a hostname that was genuinely attached to THIS site. Rules for
+#    hosts that never reach this site are dead config and hide contamination.
+#
+# 3. File-based redirects are ONLY for things the dashboard cannot do:
+#    path renames (below) and, if ever needed, genuinely different legacy
+#    hostnames that are NOT attached as Netlify domain aliases.
+#
+# ============================================================================
+# Path redirects (safe legacy of THIS site):
 # Old capitalized route (was src/routes/Produits.astro) → lowercase /produits/
 /Produits/       /produits/      301!
 /Produits        /produits/      301!
-
-# Legacy hosts from before the store rename → new canonical domain
-https://infopc.netlify.app/*     https://www.pcplaza-15.com/:splat     301!
-https://www.infopc-sba.com/*     https://www.pcplaza-15.com/:splat     301!
-https://infopc-sba.com/*         https://www.pcplaza-15.com/:splat     301!
-https://pc-plaza15.com/*         https://www.pcplaza-15.com/:splat     301!
-https://www.pc-plaza15.com/*     https://www.pcplaza-15.com/:splat     301!
-https://pcplaza-15.com/*         https://www.pcplaza-15.com/:splat     301!

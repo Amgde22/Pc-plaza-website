@@ -46,6 +46,20 @@ Rule: anything marked ✅ is verified in the built HTML, not just in source.
 
 15. **Netlify-badge MutationObserver script ran on every page** → deleted (~1 KB of JS per page). Replaced by a CSS `display:none` rule for `#nl-badge-frame` in `root.less`, which also can't be defeated by async re-injection.
 
+## ✅ Config hygiene audit (2026-09, post redirect-loop incident)
+
+After an `ERR_TOO_MANY_REDIRECTS` outage caused by duplicated apex→www rules (file + Netlify dashboard), the whole repo was audited for leftovers from the `infopc-sba` template. Findings + actions:
+
+1. **`public/_redirects`** — removed the apex→www rule for `pcplaza-15.com` (**the loop bug**: duplicated Netlify's primary-domain setting) and the `infopc.netlify.app` / `infopc-sba.com` / `pc-plaza15.com` host redirects (contamination / redundant with dashboard aliases). Only path redirects (`/Produits` → `/produits/`) remain. Header comment block documents the canonical domain and the rules.
+2. **`public/robots.txt` deleted** — it still hardcoded the old `infopc.netlify.app//sitemap` line; robots.txt is generated at build time from `client.json` (see astro.config.mjs), so the static copy was a landmine.
+3. **`.gitignore`** — removed `infopc.zip` (old project artifact name).
+4. **Single source of truth extended to contact links** — Socials.astro, SocialsFaded.astro, FAQ.astro (Maps link), index.astro (FAQ JSON-LD Maps link) now read from `client.json` instead of hardcoded URLs. Notable catch: FAQ.astro pointed to a **different Google Maps pin** (`ytN9YsnY5BVM4jvq5`) than `client.json` (`1uSaSxxQydBZgg71A`) — verify the pin in client.json is the correct one.
+5. **Cosmetic:** package.json renamed to `pcplaza-website`; site.webmanifest name aligned to "PC PLAZA 15" (NAP consistency).
+6. **Clean surfaces (verified):** no `netlify.toml`, no committed `.env`, no Netlify site ID, no `infopc` string anywhere in `src/` or `public/` after the fixes.
+7. **Flagged, user decision:** footer design-credit block (`Footer.astro`) shows the template developer's contact (Majd Studios: Instagram + WhatsApp `0556640229` + email) — not PC PLAZA's contacts; keep/remove per license & preference. Decap `config.yml` logo is hosted on `i.postimg.cc` (third-party host; consider self-hosting).
+
+**Workflow rules:** never put apex↔www domain redirects in `_redirects` (dashboard owns them); file redirects only for path renames or genuinely-attached legacy hosts; store/contact changes go in `client.json` only.
+
 ## 🔲 Pending (priority order)
 
 - **Missing alt text** — hero carousel images have empty `alt`; write descriptive alts.
