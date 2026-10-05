@@ -60,6 +60,14 @@ const storeJsonLd = {
     "addressCountry": "DZ",
   },
   "sameAs": Object.values(client.socials),
+  // Coordinates + map link come from the same client.json fields the visible
+  // Google Maps embed (LocationMap.astro) uses, so schema and page never drift.
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": client.address.geo.latitude,
+    "longitude": client.address.geo.longitude,
+  },
+  "hasMap": client.address.mapLink,
 };
  
 

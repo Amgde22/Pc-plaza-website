@@ -40,7 +40,22 @@ export default defineConfig({
         "astro:build:done": ({ dir }) => {
           // Generate robots.txt from the same single source of truth so it can
           // never drift from the site URL again.
+          // AI answer engines (ChatGPT/OpenAI, Perplexity, Claude, Gemini…) get
+          // an explicit allow group so the business can surface in AI answers.
+          const aiCrawlers = [
+            "GPTBot",
+            "OAI-SearchBot",
+            "ChatGPT-User",
+            "PerplexityBot",
+            "ClaudeBot",
+            "anthropic-ai",
+            "Google-Extended",
+            "Applebot-Extended",
+            "CCBot",
+            "Bytespider",
+          ];
           const content = [
+            ...aiCrawlers.flatMap((agent) => [`User-agent: ${agent}`, "Allow: /", ""]),
             "User-agent: *",
             "Disallow: /admin/",
             "Allow: /",

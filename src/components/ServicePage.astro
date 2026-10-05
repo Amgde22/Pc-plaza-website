@@ -1,0 +1,685 @@
+---
+import { getLocalePath, t } from "i18n:astro";
+import client from "@data/client.json";
+
+interface Props {
+  serviceKey: "reparation" | "occasion" | "gaming";
+}
+
+const { serviceKey } = Astro.props;
+
+const common = t("service_common", { returnObjects: true });
+const services = t("services", { returnObjects: true });
+const service = services[serviceKey];
+
+const homeLabel = t("Accueil");
+
+const homeHref = getLocalePath("/");
+const productsHref = getLocalePath("/produits");
+const whatsappHref = client.whatsappLink;
+const phoneHref = `tel:${client.phoneForTel}`;
+const mapHref = client.address.mapLink;
+
+// The three keyword-rich service pages. Only one is linked in navData.json
+// (the other two are commented out there) but all stay live + indexed, so
+// every page cross-links the remaining two for crawl paths.
+const servicePages = [
+  { key: "reparation", labelKey: "Dépannage", path: "/reparation-ordinateur-tizi-ouzou" },
+  { key: "occasion", labelKey: "PC Occasion", path: "/pc-occasion-tizi-ouzou" },
+  { key: "gaming", labelKey: "PC Gaming", path: "/pc-gaming-tizi-ouzou" },
+] as const;
+
+const current = servicePages.find((page) => page.key === serviceKey);
+if (!current) throw new Error(`Unknown service key: ${serviceKey}`);
+const otherPages = servicePages.filter((page) => page.key !== serviceKey);
+
+// Language-neutral schema.org service types (schema wants canonical names,
+// the visible copy stays localized).
+const serviceTypes = {
+  reparation: "Computer repair services",
+  occasion: "Second-hand computer sales",
+  gaming: "Computer custom building services",
+} as const;
+
+const baseUrl = `https://${client.domain}`;
+const pageUrl = `${baseUrl}${Astro.url.pathname}`;
+const storeId = `${baseUrl}/#store`;
+const postalAddress = {
+  "@type": "PostalAddress",
+  streetAddress: `${client.address.lineOne}, ${client.address.lineTwo}`,
+  addressLocality: client.address.city,
+  addressCountry: "DZ",
+};
+
+// Service entity — provider is referenced by @id so it merges with the
+// sitewide ComputerStore graph emitted by BaseLayout.
+const serviceJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: service.h1,
+  serviceType: serviceTypes[serviceKey],
+  description: service.lede,
+  url: pageUrl,
+  provider: {
+    "@id": storeId,
+    "@type": "ComputerStore",
+    name: client.name,
+    url: `${baseUrl}/`,
+    telephone: client.phoneInternational,
+    email: client.email,
+    address: postalAddress,
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: client.address.geo.latitude,
+      longitude: client.address.geo.longitude,
+    },
+  },
+  areaServed: { "@type": "City", name: client.address.city },
+  availableLanguage: ["ar", "fr"],
+};
+
+// FAQPage — every Q&A is visible on the page (first one in the answer box,
+// the rest in the accordion), so schema and content match 1:1.
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: service.faq.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: { "@type": "Answer", text: item.a },
+  })),
+};
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: homeLabel, item: `${baseUrl}${homeHref}` },
+    { "@type": "ListItem", position: 2, name: t(current.labelKey), item: pageUrl },
+  ],
+};
+---
+
+<!-- Breadcrumb + keyword-rich H1 -->
+<section id="service-hero">
+  <div class="cs-container">
+    <nav class="cs-breadcrumb" aria-label="Breadcrumb">
+      <a href={homeHref}>{homeLabel}</a>
+      <span class="cs-bc-sep" aria-hidden="true">/</span>
+      <span aria-current="page">{t(current.labelKey)}</span>
+    </nav>
+    <span class="cs-topper">{service.topper}</span>
+    <h1 class="cs-h1">{service.h1}</h1>
+    <p class="cs-lede cs-body">{service.lede}</p>
+    <div class="cs-actions">
+      <a class="cs-button-solid" href={whatsappHref} target="_blank" rel="noopener noreferrer">
+        {service.cta_button}
+      </a>
+      <a class="cs-ghost" href={productsHref}>{common.all_products}</a>
+    </div>
+  </div>
+</section>
+
+<!-- AEO answer box: verbatim first question/answer, extractable by assistants -->
+<section id="service-answer">
+  <div class="cs-container">
+    <div class="cs-answer">
+      <span class="cs-answer-label">{common.answer_label}</span>
+      <h2 class="cs-answer-q">{service.faq[0].q}</h2>
+      <p class="cs-answer-a cs-body">{service.faq[0].a}</p>
+      <p class="cs-answer-meta">
+        <a href={phoneHref}>{client.phoneFormatted}</a>
+        <span aria-hidden="true">·</span>
+        <a href={mapHref} target="_blank" rel="noopener noreferrer">{client.address.city}</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Highlights -->
+<section id="service-highlights">
+  <div class="cs-container">
+    <h2 class="cs-h2">{common.highlights_title}</h2>
+    <ul class="cs-grid">
+      {service.highlights.map((item) => (
+        <li class="cs-card">
+          <h3 class="cs-h3">{item.title}</h3>
+          <p class="cs-body">{item.text}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<!-- Process -->
+<section id="service-steps">
+  <div class="cs-container">
+    <h2 class="cs-h2">{common.steps_title}</h2>
+    <ol class="cs-steps">
+      {service.steps.map((step, index) => (
+        <li class="cs-step">
+          <span class="cs-step-num" aria-hidden="true">{index + 1}</span>
+          <div class="cs-step-text">
+            <h3 class="cs-h3">{step.title}</h3>
+            <p class="cs-body">{step.text}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<!-- FAQ accordion (first Q&A lives in the answer box above) -->
+<section id="service-faq">
+  <div class="cs-container">
+    <h2 class="cs-h2">{common.faq_title}</h2>
+    <div class="cs-faq-list">
+      {service.faq.slice(1).map((item) => (
+        <details class="cs-faq-item">
+          <summary>{item.q}</summary>
+          <p class="cs-body">{item.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Cross-links to the two service pages that are commented out in the nav -->
+<section id="service-others">
+  <div class="cs-container">
+    <h2 class="cs-h2">{common.others_title}</h2>
+    <div class="cs-other-links">
+      {otherPages.map((page) => (
+        <a class="cs-other-link" href={getLocalePath(page.path)}>
+          {t(page.labelKey)}
+          <span class="cs-arrow" aria-hidden="true">→</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- NAP + CTA (local entity signals) -->
+<section id="service-visit">
+  <div class="cs-container">
+    <div class="cs-visit">
+      <h2 class="cs-visit-title">{common.visit_title}</h2>
+      <p class="cs-nap">{client.name} — {client.address.lineOne}, {client.address.lineTwo}, {client.address.city}</p>
+      <p class="cs-nap">
+        <a href={phoneHref}>{client.phoneFormatted}</a>
+        <span aria-hidden="true">·</span>
+        <a href={mapHref} target="_blank" rel="noopener noreferrer">Google Maps</a>
+      </p>
+      <div class="cs-actions">
+        <a class="cs-button-solid" href={whatsappHref} target="_blank" rel="noopener noreferrer">
+          {service.cta_button}
+        </a>
+        <a class="cs-ghost cs-ghost-light" href={productsHref}>{common.all_products}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script type="application/ld+json" set:html={JSON.stringify(serviceJsonLd)} />
+<script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
+
+<style lang="less">
+  /* Mobile - 360px */
+  @media only screen and (min-width: 0rem) {
+    .cs-container {
+      width: 100%;
+      max-width: (1280/16rem);
+      margin: 0 auto;
+    }
+
+    .cs-body {
+      color: var(--bodyTextColor);
+    }
+
+    .cs-h1 {
+      font-size: var(--headerFontSize);
+      font-weight: 900;
+      line-height: 1.15em;
+      margin: (8/16rem) 0 (16/16rem);
+      max-width: 22ch;
+    }
+
+    .cs-h2 {
+      font-size: clamp(1.5rem, 3vw, 2.25rem);
+      font-weight: 900;
+      line-height: 1.2em;
+      margin: 0 0 (24/16rem);
+      max-width: 24ch;
+    }
+
+    .cs-h3 {
+      font-size: (18/16rem);
+      font-weight: 700;
+      line-height: 1.3em;
+      margin: 0 0 (8/16rem);
+    }
+
+    .cs-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: (16/16rem);
+      margin-top: (24/16rem);
+    }
+
+    .cs-ghost {
+      font-weight: 700;
+      color: var(--headerColor);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+
+      &:hover {
+        color: var(--primary);
+      }
+    }
+
+    /* Hero */
+    #service-hero {
+      padding: var(--sectionPadding);
+      padding-top: max(104px, 7vw);
+      background:
+        radial-gradient(
+          (600/16rem) (300/16rem) at 85% -10%,
+          rgba(253, 99, 1, 0.14),
+          transparent 70%
+        );
+
+      .cs-breadcrumb {
+        display: flex;
+        flex-wrap: wrap;
+        gap: (8/16rem);
+        font-size: (14/16rem);
+        color: var(--bodyTextColor);
+        margin-bottom: (16/16rem);
+
+        a {
+          text-decoration: underline;
+          text-underline-offset: 3px;
+
+          &:hover {
+            color: var(--primary);
+          }
+        }
+
+        [aria-current] {
+          font-weight: 700;
+          color: var(--headerColor);
+        }
+      }
+
+      .cs-lede {
+        font-size: clamp(1rem, 1.6vw, 1.125rem);
+        line-height: 1.6em;
+        margin: 0;
+        max-width: 68ch;
+      }
+    }
+
+    /* Answer box */
+    #service-answer {
+      padding: 0 1rem;
+
+      .cs-answer {
+        max-width: (900/16rem);
+        margin: 0 auto;
+        padding: (24/16rem);
+        background-color: #fff;
+        border: 1px solid #e8e8e8;
+        border-inline-start: (4/16rem) solid var(--primary);
+        border-radius: (12/16rem);
+        box-shadow: var(--shadow-elevation-low);
+
+        .cs-answer-label {
+          display: inline-block;
+          font-size: (13/16rem);
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          color: var(--primary);
+          margin-bottom: (8/16rem);
+        }
+
+        .cs-answer-q {
+          font-size: clamp(1.125rem, 2.4vw, 1.5rem);
+          font-weight: 800;
+          line-height: 1.3em;
+          margin: 0 0 (12/16rem);
+        }
+
+        .cs-answer-a {
+          font-size: (16/16rem);
+          line-height: 1.65em;
+          margin: 0;
+        }
+
+        .cs-answer-meta {
+          display: flex;
+          flex-wrap: wrap;
+          gap: (8/16rem);
+          margin: (16/16rem) 0 0;
+          font-weight: 700;
+          color: var(--headerColor);
+
+          a {
+            text-decoration: underline;
+            text-underline-offset: 3px;
+
+            &:hover {
+              color: var(--primary);
+            }
+          }
+        }
+      }
+    }
+
+    /* Highlights */
+    #service-highlights {
+      padding: var(--sectionPadding);
+
+      .cs-grid {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax((250/16rem), 1fr));
+        gap: (16/16rem);
+      }
+
+      .cs-card {
+        padding: (24/16rem);
+        background-color: #fff;
+        border: 1px solid #e8e8e8;
+        border-radius: (12/16rem);
+        transition: transform 0.3s, box-shadow 0.3s;
+
+        &:hover {
+          transform: translateY(-4px);
+          box-shadow: var(--shadow-elevation-medium);
+        }
+      }
+    }
+
+    /* Steps */
+    #service-steps {
+      padding: 0 1rem var(--sectionPadding);
+
+      .cs-steps {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: (20/16rem);
+        max-width: (900/16rem);
+      }
+
+      .cs-step {
+        display: flex;
+        gap: (16/16rem);
+        align-items: flex-start;
+        padding: (20/16rem);
+        background-color: #fff;
+        border: 1px solid #e8e8e8;
+        border-radius: (12/16rem);
+      }
+
+      .cs-step-num {
+        flex: none;
+        width: (36/16rem);
+        height: (36/16rem);
+        border-radius: 50%;
+        background-color: var(--primary);
+        color: #fff;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .cs-step-text p {
+        margin: 0;
+        line-height: 1.6em;
+      }
+    }
+
+    /* FAQ */
+    #service-faq {
+      padding: 0 1rem var(--sectionPadding);
+
+      .cs-faq-list {
+        max-width: (900/16rem);
+        display: flex;
+        flex-direction: column;
+        gap: (12/16rem);
+      }
+
+      .cs-faq-item {
+        border: 1px solid #e8e8e8;
+        border-radius: (10/16rem);
+        background-color: #fff;
+        overflow: hidden;
+
+        summary {
+          cursor: pointer;
+          list-style: none;
+          padding: (16/16rem) (52/16rem) (16/16rem) (16/16rem);
+          font-size: clamp(1rem, 2vw, 1.125rem);
+          font-weight: 700;
+          line-height: 1.4em;
+          position: relative;
+          transition: color 0.3s;
+
+          &::-webkit-details-marker {
+            display: none;
+          }
+
+          &:hover {
+            color: var(--primary);
+          }
+
+          &:after {
+            content: "+";
+            position: absolute;
+            inset-inline-end: (16/16rem);
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: (24/16rem);
+            font-weight: 400;
+            color: var(--primary);
+          }
+        }
+
+        &[open] summary:after {
+          content: "\2013";
+        }
+
+        p {
+          margin: 0;
+          padding: 0 (16/16rem) (16/16rem);
+          line-height: 1.65em;
+        }
+      }
+    }
+
+    /* Other services */
+    #service-others {
+      padding: 0 1rem var(--sectionPadding);
+
+      .cs-other-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: (16/16rem);
+      }
+
+      .cs-other-link {
+        display: inline-flex;
+        align-items: center;
+        gap: (8/16rem);
+        padding: (14/16rem) (24/16rem);
+        border: 2px solid var(--primary);
+        border-radius: (8/16rem);
+        font-weight: 700;
+        color: var(--headerColor);
+        transition: background-color 0.3s, color 0.3s;
+
+        &:hover {
+          background-color: var(--primary);
+          color: #fff;
+        }
+
+        .cs-arrow {
+          transition: transform 0.3s;
+        }
+
+        &:hover .cs-arrow {
+          transform: translateX(4px);
+        }
+      }
+    }
+
+    /* Visit / NAP CTA */
+    #service-visit {
+      padding: 0 1rem var(--sectionPadding);
+
+      .cs-visit {
+        max-width: (1280/16rem);
+        margin: 0 auto;
+        padding: clamp(24px, 4vw, 48px);
+        background-color: var(--secondary);
+        border-radius: (16/16rem);
+        color: var(--bodyTextColorWhite);
+
+        .cs-visit-title {
+          font-size: clamp(1.5rem, 3vw, 2.25rem);
+          font-weight: 900;
+          margin: 0 0 (12/16rem);
+          color: var(--bodyTextColorWhite);
+        }
+
+        .cs-nap {
+          margin: 0 0 (8/16rem);
+          line-height: 1.6em;
+          color: var(--bodyTextColorWhite);
+
+          a {
+            text-decoration: underline;
+            text-underline-offset: 3px;
+
+            &:hover {
+              color: var(--primaryLight);
+            }
+          }
+        }
+
+        .cs-ghost {
+          color: var(--bodyTextColorWhite);
+
+          &:hover {
+            color: var(--primaryLight);
+          }
+        }
+      }
+    }
+  }
+
+  /* Desktop - 1024px */
+  @media only screen and (min-width: 64rem) {
+    #service-answer .cs-answer {
+      padding: (32/16rem);
+    }
+
+    #service-steps .cs-step {
+      align-items: center;
+    }
+  }
+
+  /* RTL */
+  @media only screen and (min-width: 0rem) {
+    :global([dir="rtl"]) {
+      #service-hero .cs-h1,
+      #service-highlights .cs-h2,
+      #service-steps .cs-h2,
+      #service-faq .cs-h2,
+      #service-others .cs-h2 {
+        max-width: none;
+      }
+
+      #service-others .cs-other-link:hover .cs-arrow {
+        transform: translateX(-4px) scaleX(-1);
+      }
+
+      #service-others .cs-arrow {
+        display: inline-block;
+        transform: scaleX(-1);
+      }
+    }
+  }
+
+  /* Dark Mode */
+  @media only screen and (min-width: 0rem) {
+    body.dark-mode {
+      #service-hero {
+        background: radial-gradient(
+          (600/16rem) (300/16rem) at 85% -10%,
+          rgba(253, 99, 1, 0.22),
+          transparent 70%
+        );
+
+        .cs-breadcrumb,
+        .cs-breadcrumb [aria-current] {
+          color: var(--bodyTextColorWhite);
+        }
+
+        .cs-lede {
+          color: var(--bodyTextColorWhite);
+        }
+      }
+
+      #service-answer .cs-answer {
+        background-color: var(--medium);
+        border-color: var(--secondaryLight);
+        border-inline-start-color: var(--primary);
+
+        .cs-answer-q,
+        .cs-answer-meta {
+          color: var(--bodyTextColorWhite);
+        }
+
+        .cs-answer-a {
+          color: var(--bodyTextColorWhite);
+        }
+      }
+
+      #service-highlights .cs-card,
+      #service-steps .cs-step,
+      #service-faq .cs-faq-item {
+        background-color: var(--medium);
+        border-color: var(--secondaryLight);
+      }
+
+      .cs-body,
+      #service-steps .cs-step-text p,
+      #service-faq .cs-faq-item p {
+        color: var(--bodyTextColorWhite);
+      }
+
+      #service-faq .cs-faq-item summary {
+        color: var(--bodyTextColorWhite);
+      }
+
+      #service-others .cs-other-link {
+        color: var(--bodyTextColorWhite);
+
+        &:hover {
+          color: #fff;
+        }
+      }
+    }
+  }
+</style>

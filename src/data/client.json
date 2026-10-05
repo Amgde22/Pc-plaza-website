@@ -13,7 +13,12 @@
 		"city": "Tizi Ouzou",
 		"state": "",
 		"zip": "",
-		"mapLink": "https://maps.app.goo.gl/1uSaSxxQydBZgg71A"
+		"mapLink": "https://maps.app.goo.gl/1uSaSxxQydBZgg71A",
+		"mapQuery": "PC PLAZA, Tizi Ouzou, Algeria",
+		"geo": {
+			"latitude": 36.6977095,
+			"longitude": 4.0508349
+		}
 	},
 
 	"socials": {

@@ -4,6 +4,9 @@
     "En stock": "En stock",
     "Hors stock": "Rupture de stock",
     "dzd": "DZD",
+    "Dépannage": "Dépannage",
+    "PC Occasion": "PC Occasion",
+    "PC Gaming": "PC Gaming",
     "home": {
         "title": "PC Portables Neufs & Reconditionnés à Tizi Ouzou | PC PLAZA",
         "description": "PC PLAZA à Tizi Ouzou : PC portables neufs et reconditionnés certifiés, gammes pro et gaming. Fiches techniques complètes, prix transparents en DZD et livraison sécurisée sur les 58 wilayas ! Contactez le 0792415956 ou passez au showroom à Ameyoud.",
@@ -49,6 +52,113 @@
         "title_part2": "avec PC PLAZA",
         "description": "Matériel sous garantie, benchmarks réels en boutique et expédition express vers les 58 wilayas. Échangez directement avec nous pour trouver votre setup idéal.",
         "button_text": "Discuter avec un conseiller"
+    },
+    "map": {
+        "topper": "Nous trouver",
+        "title": "Passez nous voir à Ameyoud, Tizi Ouzou",
+        "description": "La boutique PC PLAZA se trouve face au lycée Hamki, à Ameyoud. Explorez la carte pour repérer le showroom et obtenez l'itinéraire en un clic.",
+        "address_label": "Adresse",
+        "phone_label": "Téléphone",
+        "directions": "Obtenir l'itinéraire",
+        "iframe_title": "Carte de la boutique PC PLAZA à Tizi Ouzou sur Google Maps"
+    },
+    "service_common": {
+        "answer_label": "Réponse courte",
+        "highlights_title": "Ce que nous proposons",
+        "steps_title": "Comment ça se passe",
+        "faq_title": "Questions fréquentes",
+        "others_title": "Autres services",
+        "visit_title": "Passez nous voir à Ameyoud",
+        "all_products": "Voir tous les produits"
+    },
+    "services": {
+        "reparation": {
+            "meta_title": "Réparation Ordinateur à Tizi Ouzou : Dépannage PC & Upgrade SSD",
+            "meta_description": "Réparation PC à Tizi Ouzou : diagnostic, écran, batterie, SSD/RAM et Windows. Devis annoncé avant l'intervention, pièces garanties. PC PLAZA, Ameyoud — 0792415956.",
+            "topper": "Dépannage informatique · Tizi Ouzou",
+            "h1": "Réparation d'ordinateur à Tizi Ouzou",
+            "lede": "Dépannage PC portable et PC fixe, upgrade SSD et RAM, nettoyage thermique et réinstallation de Windows : en boutique à Ameyoud, face au lycée Hamki, à Tizi Ouzou.",
+            "highlights": [
+                { "title": "Diagnostic clair, prix annoncé", "text": "On identifie la panne en boutique et on annonce le tarif avant de démonter quoi que ce soit, sans engagement." },
+                { "title": "Écran, batterie, clavier", "text": "Remplacement des pièces d'usure les plus courantes sur PC portable et PC fixe." },
+                { "title": "Upgrade SSD & RAM", "text": "Un ancien PC devient rapide : SSD NVMe, mémoire RAM, réinstallation de Windows et reprise de vos données." },
+                { "title": "Nettoyage & refroidissement", "text": "Poussière, pâte thermique, ventilateur bruyant : on refroidit la machine pour éviter les coupures." }
+            ],
+            "steps": [
+                { "title": "Décrivez la panne", "text": "WhatsApp ou appel au 0792415956 : symptômes, modèle, bruit anormal ou écran noir." },
+                { "title": "Diagnostic en boutique", "text": "La machine est testée à Ameyoud, face au lycée Hamki, et la panne vous est expliquée." },
+                { "title": "Devis avant réparation", "text": "Tarif annoncé en dinars (DZD), pièces garanties : rien ne commence sans votre accord." },
+                { "title": "Réparation & test", "text": "Intervention, test complet, puis retrait en boutique ou livraison dans les 58 wilayas." }
+            ],
+            "faq": [
+                { "q": "Où réparer mon ordinateur portable à Tizi Ouzou ?", "a": "PC PLAZA répare les PC portables et fixes à Tizi Ouzou, en boutique à Ameyoud face au lycée Hamki : diagnostic, écran, batterie, clavier, ventilation, SSD et RAM. Le devis est annoncé avant l'intervention, les pièces sont garanties, et le magasin livre dans les 58 wilayas. Téléphone : 0792415956." },
+                { "q": "Combien coûte une réparation d'ordinateur ?", "a": "Le prix dépend de la panne et des pièces : le diagnostic est fait en boutique et le devis est annoncé avant toute intervention, sans engagement. Remplacement d'écran, de batterie, de clavier, upgrade SSD/RAM : vous validez le tarif en dinars (DZD) avant qu'on commence." },
+                { "q": "Combien de temps pour réparer un PC portable ?", "a": "La plupart des interventions courantes (nettoyage, réinstallation de Windows, remplacement de batterie ou de SSD) sont faites le jour même ou en 24 à 48 h selon les pièces disponibles. Vous êtes prévenu dès que la machine est prête." },
+                { "q": "Réparez-vous les MacBook et les PC gaming ?", "a": "Oui. MacBook Air/Pro, PC gaming et gammes professionnelles (ThinkPad, Dell Precision/Latitude) : vérification du matériel, changement de pièce, upgrade et remise à niveau. Apportez la machine en boutique pour un diagnostic." },
+                { "q": "Faut-il prendre rendez-vous pour une réparation ?", "a": "Non, passez directement en boutique à Ameyoud, Tizi Ouzou, ou écrivez sur WhatsApp au 0792415956 avant de venir : on vérifie la panne avec vous et on vous dit si l'intervention est possible le jour même." }
+            ],
+            "cta_title": "Votre PC bloque ? On le remet en route.",
+            "cta_text": "Décrivez la panne sur WhatsApp et recevez une estimation avant même de vous déplacer.",
+            "cta_button": "Écrire sur WhatsApp"
+        },
+        "occasion": {
+            "meta_title": "PC Occasion Tizi Ouzou : Portable Reconditionné & Garanti",
+            "meta_description": "PC portables d'occasion et reconditionnés à Tizi Ouzou, testés avant achat, prix en DZD, garantis et livrés dans les 58 wilayas. PC PLAZA, Ameyoud — 0792415956.",
+            "topper": "PC reconditionné garanti · Tizi Ouzou",
+            "h1": "PC portable occasion & reconditionné à Tizi Ouzou",
+            "lede": "PC portables d'occasion testés pièce par pièce, garantis et affichés en dinars : gammes pro (ThinkPad, Dell Latitude/Precision), ultrabooks (MacBook Air, Surface) et machines gaming.",
+            "highlights": [
+                { "title": "Test complet avant achat", "text": "Écran, batterie, clavier, ports et ventilation vérifiés, avec démonstration en magasin." },
+                { "title": "Gammes professionnelles", "text": "ThinkPad, Dell Latitude et Precision : des machines de bureau testées pour un usage intensif." },
+                { "title": "Ultrabooks & étudiants", "text": "MacBook Air, Surface et autres ultrabooks reconditionnés à prix doux." },
+                { "title": "Garantie & livraison", "text": "Garantie annoncée avec la machine et livraison suivie dans les 58 wilayas." }
+            ],
+            "steps": [
+                { "title": "Choisissez la machine", "text": "Parcourez le catalogue ou passez en boutique à Ameyoud pour voir le stock disponible." },
+                { "title": "Voyez le test", "text": "Test écran, batterie et performances devant vous, avec vidéo du test avant l'achat." },
+                { "title": "Prix affiché en DZD", "text": "Les tarifs sont clairs en dinars algériens, sans frais cachés ni mauvaise surprise." },
+                { "title": "Retrait ou livraison", "text": "Récupérez la machine en boutique ou faites-vous livrer dans l'une des 58 wilayas." }
+            ],
+            "faq": [
+                { "q": "Où acheter un PC d'occasion fiable à Tizi Ouzou ?", "a": "Chez PC PLAZA, à Ameyoud (Tizi Ouzou) : chaque PC d'occasion est testé avant la vente — écran, batterie, clavier, ports et ventilation — et le test vous est montré en magasin. Les prix sont affichés en dinars, la machine est garantie et le magasin livre dans les 58 wilayas. Tél. : 0792415956." },
+                { "q": "Quelle différence entre PC occasion et PC reconditionné ?", "a": "Un PC occasion est vendu en l'état après contrôle ; un PC reconditionné est en plus remis à niveau (nettoyage, remplacement des pièces fatiguées, réinstallation de Windows). Chez PC PLAZA, les deux sont testés et garantis avant la mise en vente." },
+                { "q": "Quelle garantie sur les PC d'occasion ?", "a": "La garantie applicable est annoncée et précisée avec la machine au moment de l'achat, et les pièces remplacées pendant le réconditionnement sont contrôlées avant la livraison. Demandez les détails de la garantie du modèle que vous visez en magasin." },
+                { "q": "Puis-je tester le PC avant d'acheter ?", "a": "Oui, en magasin : vous voyez la machine fonctionner, le test de l'écran et de la batterie est fait devant vous, et nous filmons les essais avant l'achat pour que vous achetiez en confiance." },
+                { "q": "Livrez-vous les PC en dehors de Tizi Ouzou ?", "a": "Oui, livraison avec suivi sur l'ensemble des 58 wilayas d'Algérie, ou retrait direct en boutique à Ameyoud. Le prix affiché est en dinars (DZD)." }
+            ],
+            "cta_title": "Trouvez votre prochain PC",
+            "cta_text": "Passez à Ameyoud ou demandez la disponibilité sur WhatsApp avant de vous déplacer.",
+            "cta_button": "Voir les modèles disponibles"
+        },
+        "gaming": {
+            "meta_title": "PC Gaming à Tizi Ouzou : Assemblage & Upgrade RTX sur Mesure",
+            "meta_description": "PC gaming et assemblage sur mesure à Tizi Ouzou : cartes RTX, SSD NVMe, test de stabilité. Devis gratuit et livraison 58 wilayas. PC PLAZA, Ameyoud — 0792415956.",
+            "topper": "PC Gaming · Tizi Ouzou",
+            "h1": "PC gaming & assemblage sur mesure à Tizi Ouzou",
+            "lede": "Assemblage de PC gaming selon votre budget, upgrade GPU, RAM et SSD, avec test de stabilité et de températures avant livraison.",
+            "highlights": [
+                { "title": "Configuration sur mesure", "text": "On part de vos jeux, de votre résolution et de votre budget pour choisir GPU, CPU et RAM." },
+                { "title": "Montage & câblage", "text": "Assemblage soigné en boutique, ventilation et alimentation dimensionnées pour tenir la charge." },
+                { "title": "Test avant livraison", "text": "Stabilité, températures et performances vérifiées avant que la machine ne parte." },
+                { "title": "Upgrade GPU / RAM / SSD", "text": "Faites monter un PC existant au lieu de racheter une machine complète." }
+            ],
+            "steps": [
+                { "title": "Votre budget et vos jeux", "text": "Dites-nous les jeux que vous lancez, la résolution visée et l'écran que vous possédez." },
+                { "title": "Configuration & prix en DZD", "text": "On vous propose un build complet avec les prix affichés en dinars, avant de monter." },
+                { "title": "Montage et installation", "text": "Assemblage, câblage, installation de Windows et des pilotes en boutique." },
+                { "title": "Test & livraison", "text": "Contrôle des températures et de la stabilité, puis retrait en boutique ou livraison 58 wilayas." }
+            ],
+            "faq": [
+                { "q": "Où acheter un PC gaming à Tizi Ouzou ?", "a": "PC PLAZA assemble et vend des PC gaming à Tizi Ouzou, en boutique à Ameyoud : cartes graphiques RTX, SSD NVMe, alimentations et écrans gaming. La configuration est conseillée selon votre budget, la machine est testée avant livraison, et le magasin livre dans les 58 wilayas. Tél. : 0792415956." },
+                { "q": "Quel budget pour un PC gaming ?", "a": "Tout dépend des jeux et de la résolution : on part de votre budget et des titres à faire tourner pour choisir GPU, CPU et RAM. La configuration vous est proposée avec les prix en dinars (DZD) avant le montage, sans surprise." },
+                { "q": "Faites-vous l'upgrade de mon PC actuel ?", "a": "Oui : ajout ou remplacement de SSD NVMe, passage en RAM, carte graphique, alimentation et refroidissement. On vérifie d'abord la compatibilité de la carte mère et de l'alimentation, puis on monte et on teste." },
+                { "q": "Comment se passe l'assemblage d'un PC sur mesure ?", "a": "Configuration validée, montage et câblage en boutique, installation de Windows et des pilotes, puis test de stabilité et de températures. Vous récupérez la machine prête à l'emploi, ou elle est livrée dans les 58 wilayas." },
+                { "q": "Vendez-vous aussi les écrans et périphériques gaming ?", "a": "Oui, écrans, claviers, souris, casques et composants (GPU, RAM, SSD, alimentations) sont disponibles en boutique à Ameyoud, avec les prix affichés en DZD." }
+            ],
+            "cta_title": "Build votre PC gaming sur mesure",
+            "cta_text": "Envoyez votre budget et vos jeux préférés : on vous propose une configuration avec prix affichés.",
+            "cta_button": "Demander une configuration"
+        }
     },
     "faq": {
         "topper": "Foire Aux Questions",
